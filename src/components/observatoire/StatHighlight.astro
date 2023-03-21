@@ -1,36 +1,88 @@
-<div class="fr-grid-row fr-grid-row--gutters">
-  <div class="fr-col fr-col-md-3">
-    <div class="fr-callout">
-      <h2 class="fr-callout__title">50%</h2>
-      <p class="fr-callout__text">
-        des déplacements en voiture sont réalisés à plusieurs
-      </p>
-    </div>
-  </div>
-  <div class="fr-col fr-col-md-3">
-    <div class="fr-callout">
-      <h2 class="fr-callout__title">1,43</h2>
-      <p class="fr-callout__text">
-        personnes par véhicule sur des distances inférieur à 100 km
-      </p>
-    </div>
-  </div>
-  <div class="fr-col">
-    <div class="fr-callout">
-      <h3 class="fr-callout__title">Explication</h3>
-      <p class="fr-callout__text">
-          Les parents d’enfants de 11 à 14 ans n’ont aucune démarche à accomplir : les CAF versent automatiquement l’ARS aux familles déjà allocataires qui remplissent les conditions.
-      </p>
-    </div>
-  </div>
+---
+type Stat = {
+  value: string,
+  description: string,
+}
+export interface Props {
+  stats: Stat[],
+  analyse?: string,
+  analyseLeft?: boolean,
+}
+
+const { analyseLeft = false, stats, analyse } = Astro.props;
+---
+<div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+  {
+  analyse && analyseLeft ? 
+    <>
+      <div class="fr-col fr-col-md-6">
+        <div class="fr-callout analyse">
+          <h3 class="fr-callout__title ">Analyse</h3>
+          <p class="fr-callout__text">
+            {analyse} 
+          </p>
+        </div>
+      </div>
+    </>
+    : ''
+  }
+  {
+    stats.map((stat) =>(
+      <>
+        <div class="fr-col fr-col-md-3">
+          <div class="fr-callout stat">
+            <h2 class="fr-callout__title">{stat.value}</h2>
+            <p class="fr-callout__text">
+              {stat.description} 
+            </p>
+          </div>
+        </div>
+      </>
+    ))
+  }
+  {
+    analyse && !analyseLeft ? 
+    <>
+      <div class="fr-col fr-col-md-6">
+        <div class="fr-callout analyse">
+          <h3 class="fr-callout__title">Analyse</h3>
+          <p class="fr-callout__text">
+            {analyse} 
+          </p>
+        </div>
+      </div>
+    </>
+    : ''
+  }  
 </div>
 
-<style>
+<style lang="scss">
   .fr-col{
     display: flex;
   }
-  .fr-callout{
+  .stat{
     align-items: stretch;
+    padding: 2rem 1rem;
+    text-align: right;
+    .fr-callout__title{
+      font-size: 2.5rem;
+      padding: 1rem 0;
+      
+    }
+    .fr-callout__text{
+      font-size: 1rem;
+    }
   }
+  .analyse{
+    align-items: stretch;
+    padding: 1rem;
+    .fr-callout__title{
+      font-size: 1rem;
+    }
+    .fr-callout__text{
+      font-size: 0.8rem;
+    }
+  }
+
 </style>
 
