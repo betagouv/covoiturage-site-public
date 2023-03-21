@@ -1,0 +1,10 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Map from '@/components/observatoire/Map.vue';
+import StatHighlight from '@/components/observatoire/StatHighlight.astro';
+---
+
+<Layout title="Le covoiturage courte distance en France">
+	<StatHighlight />
+	<Map client:visible />
+</Layout>
