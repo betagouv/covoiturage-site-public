@@ -1,15 +1,18 @@
 ---
+import { LEGACY_ASTRO_CONFIG_KEYS } from 'astro/dist/core/config/config';
+
 type Stat = {
   value: string,
   description: string,
 }
 export interface Props {
   stats: Stat[],
-  analyse?: string,
+  analyse?: {title:string, content:string},
+  link?:{title:string, url:string},
   analyseLeft?: boolean,
 }
 
-const { analyseLeft = false, stats, analyse } = Astro.props;
+const { analyseLeft = false, stats, analyse, link } = Astro.props;
 ---
 <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
   {
@@ -17,10 +20,19 @@ const { analyseLeft = false, stats, analyse } = Astro.props;
     <>
       <div class="fr-col fr-col-md-6">
         <div class="fr-callout analyse">
-          <h3 class="fr-callout__title ">Analyse</h3>
+          <h3 class="fr-callout__title ">{analyse.title}</h3>
           <p class="fr-callout__text">
-            {analyse} 
+            {analyse.content} 
           </p>
+          {
+            link ?
+            <>
+              <button class="fr-btn fr-btn--sm">
+                <a href={link.url}>{link.title}</a>
+              </button>
+            </>
+            : ''
+          }
         </div>
       </div>
     </>
@@ -45,10 +57,19 @@ const { analyseLeft = false, stats, analyse } = Astro.props;
     <>
       <div class="fr-col fr-col-md-6">
         <div class="fr-callout analyse">
-          <h3 class="fr-callout__title">Analyse</h3>
+          <h3 class="fr-callout__title">{analyse.title}</h3>
           <p class="fr-callout__text">
-            {analyse} 
+            {analyse.content} 
           </p>
+          {
+            link ?
+            <>
+              <button class="fr-btn fr-btn--sm">
+                <a href={link.url}>{link.title}</a>
+              </button>
+            </>
+            : ''
+          }
         </div>
       </div>
     </>
@@ -81,6 +102,9 @@ const { analyseLeft = false, stats, analyse } = Astro.props;
     }
     .fr-callout__text{
       font-size: 0.8rem;
+    }
+    button{
+      float: right;
     }
   }
 

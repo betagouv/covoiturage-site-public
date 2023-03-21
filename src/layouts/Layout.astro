@@ -1,7 +1,9 @@
 ---
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
-
+import '@gouvfr/dsfr/dist/dsfr/dsfr.min.css';
+import '@gouvfr/dsfr/dist/utility/icons/icons.css';
+import '@/styles/global.css';
 export interface Props {
 	title: string;
 }
@@ -15,10 +17,10 @@ const { title } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="theme-color" content="#000091"><!-- Défini la couleur de thème du navigateur (Safari/Android) -->
-    <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png"><!-- 180×180 -->
-    <link rel="icon" href="favicon/favicon.svg" type="image/svg+xml">
-    <link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon"><!-- 32×32 -->
-    <link rel="manifest" href="favicon/manifest.webmanifest" crossorigin="use-credentials">
+    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png"><!-- 180×180 -->
+    <link rel="icon" href="/favicon/favicon.svg" type="image/svg+xml">
+    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon"><!-- 32×32 -->
+    <link rel="manifest" href="/favicon/manifest.webmanifest" crossorigin="use-credentials">
 		<title>{title} | RPC</title>
 	</head>
 	<body>
@@ -34,14 +36,7 @@ const { title } = Astro.props;
 			</div>
 		</div>
 		<Footer />
-		<script type="module" src="dsfr/dsfr.module.min.js"></script>
-    <script type="text/javascript" nomodule src="dsfr/dsfr.nomodule.min.js"></script>
+		<script type="module" src="/dsfr/dsfr.module.min.js"></script>
+    <script type="text/javascript" nomodule src="/dsfr/dsfr.nomodule.min.js"></script>
 	</body>
 </html>
-<style is:global>
-	@import "@gouvfr/dsfr/dist/dsfr/dsfr.min.css";
-	@import "@gouvfr/dsfr/dist/utility/icons/icons.css";
-	.page-title{
-		margin:2rem 0;
-	}
-</style>
