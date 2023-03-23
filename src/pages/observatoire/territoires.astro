@@ -5,9 +5,9 @@ import SelectTerritory from '@/components/observatoire/dashboard/SelectTerritory
 ---
 
 <Layout title="Le covoiturage sur un territoire">
-	<div class="fr-grid-row fr-grid-row--gutters">
-    <SelectTerritory client:load />
-    <SelectPeriod client:load />
+	<div class="fr-grid-row">
+    <SelectTerritory client:visible />
+    <SelectPeriod client:visible />
   </div>
   
 </Layout>

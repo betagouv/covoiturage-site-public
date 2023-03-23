@@ -1,5 +1,5 @@
 <template>
-  <div class="fr-col fr-col-md-3">
+  <div class="fr-col fr-col-offset-md-1 fr-col-md-2">
   <div class="fr-select-group">
     <label class="fr-label" for="select">
       Mois
@@ -10,7 +10,7 @@
     </select>
   </div>
 </div>
-<div class="fr-col fr-col-md-3">
+<div class="fr-col fr-col-offset-md-1 fr-col-md-2">
   <div class="fr-select-group">
     <label class="fr-label" for="select">
       Année
