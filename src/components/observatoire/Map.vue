@@ -13,33 +13,32 @@
 
 import maplibregl from 'maplibre-gl'
 import type { Map } from 'maplibre-gl'
-import { onMounted } from 'vue'
+import { shallowRef, markRaw, onMounted } from 'vue'
 
 type Props = {
   title: String
 }
 const props = defineProps<Props>()
-
-let map:Map
+const map = shallowRef<Map>()
 
 onMounted(() => {
   createMap()
 })
 
 function createMap() {
-    map = new maplibregl.Map({
-      container: 'map',
-      style: 'https://openmaptiles.geo.data.gouv.fr/styles/osm-bright/style.json',
-      center: [4.5, 45.6],
-      zoom: 7,
-      attributionControl: false,
-    })
-    map.scrollZoom.disable()
-    map.addControl(new maplibregl.NavigationControl({}), 'top-right')
-    map.addControl(new maplibregl.AttributionControl({
-        compact: true
-    }))
-  }
+  map.value = markRaw(new maplibregl.Map({
+    container: 'map',
+    style: 'https://openmaptiles.geo.data.gouv.fr/styles/osm-bright/style.json',
+    center: [2.087, 45.5],
+    zoom: 4,
+    attributionControl: false,
+  })) 
+  map.value.scrollZoom.disable()
+  map.value.addControl(new maplibregl.NavigationControl({}), 'top-right')
+  map.value.addControl(new maplibregl.AttributionControl({
+      compact: true
+  }))
+}
 </script>
 
 <style lang="scss">

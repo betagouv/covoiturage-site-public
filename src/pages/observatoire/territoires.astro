@@ -1,0 +1,11 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import SelectPeriod from '@/components/observatoire/dashboard/SelectPeriod.vue';
+---
+
+<Layout title="Le covoiturage sur un territoire">
+	<div class="fr-grid-row fr-grid-row--gutters">
+    <SelectPeriod client:load />
+  </div>
+  
+</Layout>
