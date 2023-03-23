@@ -1,4 +1,5 @@
-import { map, onMount, task } from 'nanostores'
+import { atom, map, computed, onMount, task } from 'nanostores'
+import type { territoryInterface } from '@/interfaces/dashboardInterfaces'
 import axios from 'axios'
 
 export const period = map({
@@ -34,6 +35,7 @@ export async function loadPeriod() {
 onMount(period, () => {
   task(async () => {
     await loadPeriod()
+    await loadTerritories()
   })
 })
 
@@ -41,4 +43,22 @@ export const territory= map({
   territory:'XXXXX',
   l_territory:'France',
   type:'country',
+})
+
+export const territorySearch = atom('')
+
+export const territoryList= map<territoryInterface[]>([])
+
+export async function loadTerritories() {
+  const response = await axios.get(`/territories?year=${period.get().year}`)
+  if(response.data){
+    territoryList.set(response.data.result.data)
+  }
+}
+
+export const filteredTerritories = computed([territorySearch,territoryList], (search,territories) => {
+  return territories.filter((option) => {
+    return (option.l_territory.toLowerCase().indexOf(search.toLowerCase()) >= 0 
+    || option.territory.indexOf(search.toLowerCase()) >= 0)
+  }).slice(0,100)
 })
