@@ -2,6 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import SelectPeriod from '@/components/observatoire/dashboard/SelectPeriod.vue';
 import SelectTerritory from '@/components/observatoire/dashboard/SelectTerritory.vue';
+import MapFlux from '@/components/observatoire/MapFlux.vue';
 ---
 
 <Layout title="Le covoiturage sur un territoire">
@@ -9,5 +10,5 @@ import SelectTerritory from '@/components/observatoire/dashboard/SelectTerritory
     <SelectTerritory client:visible />
     <SelectPeriod client:visible />
   </div>
-  
+  <MapFlux client:visible />
 </Layout>

@@ -1,6 +1,4 @@
 ---
-import { LEGACY_ASTRO_CONFIG_KEYS } from 'astro/dist/core/config/config';
-
 type Stat = {
   value: string,
   description: string,
@@ -11,9 +9,9 @@ export interface Props {
   link?:{title:string, url:string},
   analyseLeft?: boolean,
 }
-
 const { analyseLeft = false, stats, analyse, link } = Astro.props;
 ---
+
 <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
   {
   analyse && analyseLeft ? 

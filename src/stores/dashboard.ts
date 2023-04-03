@@ -1,10 +1,10 @@
 import { atom, map, computed, onMount, task } from 'nanostores'
-import type { territoryInterface } from '@/interfaces/dashboardInterfaces'
+import type { territoryInterface } from '@/interfaces/observatoire/dashboardInterfaces'
 import axios from 'axios'
 
 export const period = map({
-  year: '',
-  month:'',
+  year: '2022',
+  month:'11',
 })
 
 export const periodList= map({
