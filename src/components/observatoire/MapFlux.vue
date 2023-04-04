@@ -13,15 +13,15 @@
 
 <script setup lang="ts">
 
-import maplibregl from 'maplibre-gl'
+import maplibregl, { CustomLayerInterface, IControl, LayerSpecification, LngLatBoundsLike } from 'maplibre-gl'
 import type { Map } from 'maplibre-gl'
 import * as turf from '@turf/helpers'
 import bbox from '@turf/bbox'
 import type { AnalyseInterface } from '@/interfaces/observatoire/helpersInterfaces'
 import type { FluxData } from '@/interfaces/observatoire/dashboardInterfaces'
-import { MapboxLayer } from '@deck.gl/mapbox/typed'
+import { MapboxOverlay } from '@deck.gl/mapbox/typed'
 import { ArcLayer } from '@deck.gl/layers/typed'
-import { Deck } from '@deck.gl/core/typed'
+import { Deck, LayersList } from '@deck.gl/core/typed'
 import axios from 'axios'
 import { useProgrammatic } from '@oruga-ui/oruga-next'
 import { ref, Ref, shallowRef, markRaw, onMounted, watch } from 'vue'
@@ -38,24 +38,24 @@ const isLoading = ref(false)
 const isHovering = ref(false)
 const $territory = useStore(territory)
 const $period = useStore(period)
-
-onMounted(async () => {
-  createMap()
-  await getData()
-  await jenksAnalyse()
-  await createDeck(addArcLayer())
-  addLayers()
+const Deckoverlay = new MapboxOverlay({
+  interleaved: true,
+  onHover: ({object}:any) => (isHovering.value = Boolean(object)),
+  getCursor: ({isDragging}:any) => (isDragging ? 'grabbing' : (isHovering.value ? 'pointer' : 'grab')),
+  getTooltip:addTooltip(),
+  layers: []
 })
 
-watch(data, async () => {
- 
+onMounted(() => {
+  createMap()
 })
 
 watch($period, async () => {
   await getData()
+  await jenksAnalyse()
   const bounds = getBbox()
-  map.value!.fitBounds(bounds, {padding: 50})
-  deck.value!.setProps({layers:[addArcLayer()]})
+  map.value!.fitBounds(bounds as LngLatBoundsLike, {padding: 50})
+  Deckoverlay.setProps({layers: [addArcLayer()]})
 })
 
 function createMap() {
@@ -65,22 +65,14 @@ function createMap() {
     center: [2.087, 45.5],
     zoom: 4,
     attributionControl: false,
+    antialias: true,
   })) 
   map.value.scrollZoom.disable()
   map.value.addControl(new maplibregl.NavigationControl({}), 'top-right')
   map.value.addControl(new maplibregl.AttributionControl({
       compact: true
   }))
-}
-
-async function createDeck(layer:any) {
-  deck.value = markRaw(new Deck({
-    gl: map.value!.painter.context.gl,
-    onHover: ({object}:any) => (isHovering.value = Boolean(object)),
-    getCursor: ({isDragging}:any) => (isDragging ? 'grabbing' : (isHovering.value ? 'pointer' : 'grab')),
-    layers:[layer],
-    getTooltip:addTooltip()
-  }))
+  map.value.addControl(Deckoverlay as unknown as IControl)
 }
 
 function addArcLayer(){
@@ -94,12 +86,6 @@ function addArcLayer(){
     getTargetPosition: (d:FluxData) => [d.lng_2,d.lat_2],
     getSourceColor: [0,0,145],
     getTargetColor:  [0,0,145],
-  })
-}
-
-function addLayers() {
-  map.value!.on('load', () => {
-    map.value!.addLayer(new MapboxLayer({id: 'flux-layer', deck}))
   })
 }
 
