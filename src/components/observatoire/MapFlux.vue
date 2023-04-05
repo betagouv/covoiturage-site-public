@@ -3,9 +3,10 @@
     <div class="fr-col">
       <div class="fr-callout">
         <h3 class="fr-callout__title">Carte de Flux</h3>
-        <div id="map"></div>
-        <o-loading v-model:active="isLoading" fullPage>
+        <o-loading v-model:active="$loading" fullPage>
         </o-loading>
+        <div id="map"></div>
+        
       </div>
     </div>
   </div>
@@ -13,123 +14,113 @@
 
 <script setup lang="ts">
 
-import maplibregl, { CustomLayerInterface, IControl, LayerSpecification, LngLatBoundsLike } from 'maplibre-gl'
-import type { Map } from 'maplibre-gl'
-import * as turf from '@turf/helpers'
-import bbox from '@turf/bbox'
+import { useMap } from './helpers/maps'
+import { useApi } from './helpers/api'
+import { classWidth, jenks } from './helpers/analyses'
 import type { AnalyseInterface } from '@/interfaces/observatoire/helpersInterfaces'
 import type { FluxData } from '@/interfaces/observatoire/dashboardInterfaces'
+import type { Map } from 'maplibre-gl'
+import type { PickingInfo } from '@deck.gl/core/typed'
 import { MapboxOverlay } from '@deck.gl/mapbox/typed'
 import { ArcLayer } from '@deck.gl/layers/typed'
-import { Deck, LayersList } from '@deck.gl/core/typed'
-import axios from 'axios'
-import { useProgrammatic } from '@oruga-ui/oruga-next'
-import { ref, Ref, shallowRef, markRaw, onMounted, watch } from 'vue'
+import type { LngLatBoundsLike } from 'maplibre-gl'
+import * as turf from '@turf/helpers'
+import bbox from '@turf/bbox'
 import { useStore } from '@nanostores/vue'
 import { territory, period } from '@/stores/dashboard'
-import { classWidth, jenks } from './helpers/analyses'
+import { ref, Ref, shallowRef, onMounted, watch, computed } from 'vue'
 
-const map = shallowRef<Map>()
-const deck = shallowRef<Deck>()
-const data:Ref<FluxData[]> = ref([])
-const analyse:Ref<AnalyseInterface[]> = ref([])
-const { oruga } = useProgrammatic()
-const isLoading = ref(false)
-const isHovering = ref(false)
-const $territory = useStore(territory)
-const $period = useStore(period)
-const Deckoverlay = new MapboxOverlay({
+const deck = new MapboxOverlay({
   interleaved: true,
-  onHover: ({object}:any) => (isHovering.value = Boolean(object)),
-  getCursor: ({isDragging}:any) => (isDragging ? 'grabbing' : (isHovering.value ? 'pointer' : 'grab')),
+  onHover: (object) => (isHovering.value = Boolean(object)),
+  getCursor: (isDragging) => (isDragging ? 'grabbing' : (isHovering.value ? 'pointer' : 'grab')),
   getTooltip:addTooltip(),
   layers: []
 })
 
-onMounted(() => {
-  createMap()
-})
-
-watch($period, async () => {
-  await getData()
-  await jenksAnalyse()
-  const bounds = getBbox()
-  map.value!.fitBounds(bounds as LngLatBoundsLike, {padding: 50})
-  Deckoverlay.setProps({layers: [addArcLayer()]})
-})
-
-function createMap() {
-  map.value = markRaw(new maplibregl.Map({
+const map = useMap({
+  map:{
     container: 'map',
     style: 'https://openmaptiles.geo.data.gouv.fr/styles/osm-bright/style.json',
     center: [2.087, 45.5],
     zoom: 4,
     attributionControl: false,
     antialias: true,
-  })) 
-  map.value.scrollZoom.disable()
-  map.value.addControl(new maplibregl.NavigationControl({}), 'top-right')
-  map.value.addControl(new maplibregl.AttributionControl({
-      compact: true
-  }))
-  map.value.addControl(Deckoverlay as unknown as IControl)
-}
+  },
+  scrollZoom: false,
+  controls: {
+    position: 'top-right',
+    attribution: {
+      compact: true,
+    },
+  },
+  deckOverlay : deck
+})
+const $territory = useStore(territory)
+const $period = useStore(period)
+const url = computed(() => {
+  return `/monthly_flux?code=${$territory.value.territory}&type=com&observe=${$territory.value.type}&year=${$period.value.year}&month=${$period.value.month}`
+})
+
+const $data = ref<FluxData[]>()
+const $loading = ref<boolean>(false)
+const analyse:Ref<AnalyseInterface[]> = ref([])
+const isHovering = ref(false)
+
+
+watch($period, async () => {
+  await updateData()
+})
+watch($territory, async () => {
+  await updateData()
+})
 
 function addArcLayer(){
   return new ArcLayer({
     id: 'flux-layer',
-    data:data.value,
+    data:$data.value,
     opacity:0.3,
     pickable: true,
-    getWidth: (d:FluxData) => classWidth( d.passengers,analyse.value),
+    getWidth: (d:FluxData) => classWidth(d.passengers,analyse.value),
     getSourcePosition: (d:FluxData) => [d.lng_1,d.lat_1],
     getTargetPosition: (d:FluxData) => [d.lng_2,d.lat_2],
     getSourceColor: [0,0,145],
     getTargetColor:  [0,0,145],
   })
 }
-
 async function getData(){
-  try{
-    isLoading.value = true
-    const response = await axios.get(`/monthly_flux?code=${$territory.value.territory}&type=com&observe=country&year=${$period.value.year}&month=${$period.value.month}`)
-    if(response.status === 204){
-      oruga.notification.open({
-        message: response.data.message,
-      })
-    }
-    if(response.status === 200){
-      data.value = response.data.result.data
-    }
-  
-  } catch (err){
-    if(axios.isAxiosError(err)){
-      oruga.notification.open({
-        message: err.response?.data.error.data,
-      })
-    }
-  } finally {
-    isLoading.value = false
-  }
+  const {loading, data} = await useApi<FluxData[]>({ 
+    method:'get',
+    url:url.value
+  })
+  $loading.value = loading.value
+  $data.value = data.value
+}
+async function updateData(){
+  await getData()
+  await jenksAnalyse()
+  const bounds = getBbox()
+  map.value!.fitBounds(bounds as LngLatBoundsLike, {padding: 50})
+  deck.setProps({layers: [addArcLayer()]})
 }
 
 async function jenksAnalyse(){
-  if($territory.value.type !== 'country' ){ 
-  analyse.value = jenks(data.value,'passengers',['#000091','#000091','#000091','#000091','#000091','#000091'],[1,3,6,12,24,48])
-  } else {
-  analyse.value = jenks(data.value,'passengers',['#000091','#000091','#000091'],[3,12,48])
+  if ($data.value){
+    $territory.value.type !== 'country' 
+    ? analyse.value = jenks($data.value,'passengers',['#000091','#000091','#000091','#000091','#000091','#000091'],[1,3,6,12,24,48])
+    : analyse.value = jenks($data.value,'passengers',['#000091','#000091','#000091'],[3,12,48])
   }
 }
 
 function getBbox(){
-  const coords = data.value.map(d => {return [[d.lng_1,d.lat_1],[d.lng_2,d.lat_2]]})
+  const coords = $data.value!.map(d => {return [[d.lng_1,d.lat_1],[d.lng_2,d.lat_2]]})
     .reduce((acc, val) => acc.concat(val), [])
   const bounds = $territory.value.territory == 'XXXXX' ? [-5.225,41.333,9.55,51.2] : bbox(turf.multiPoint(coords))
   return bounds
 }
 
 function addTooltip(){
-  return ({object}:any) => object && {
+  return ({object}:PickingInfo) => object && {
     html: `<div class="tooltip-title"><b>${object.ter_1} - ${object.ter_2}</b></div>
     <div>${object.passengers} passagers transportés</div>
     <div>${object.distance.toLocaleString()} Km parcourus</div>`,
@@ -145,7 +136,6 @@ function addTooltip(){
     }
   }
 }
-
 </script>
 
 <style lang="scss">

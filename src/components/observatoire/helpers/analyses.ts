@@ -4,11 +4,7 @@ import { ckmeans } from 'simple-statistics'
 export function jenks(data:any[],field:string,colors:string[],width:number[]){
   const vals:number[] = data.map(d => d[field])
   const breaks = ckmeans(vals, colors.length - 1)
-  const analysis:{
-    val: number;
-    color: [number, number, number];
-    width: number;
-  }[] = breaks.map((b,i) => {
+  const analysis:AnalyseInterface[] = breaks.map((b,i) => {
     return {val:b[0],color:hexToRgb(colors[i]),width:width[i]} 
   })
   return analysis
@@ -24,18 +20,16 @@ export function hexToRgb(hex:string):[number, number, number] {
   }
 }
 
-export function classColor(val:number, datas:AnalyseInterface[]) {
-  const analysisClass = datas.map(d => d.val)
-  const classe = analysisClass.reduce((prev, curr) => {
+export function classColor(val:number, analysis:AnalyseInterface[]) {
+  const classe = analysis.map(d => d.val).reduce((prev, curr) => {
     return Math.abs(curr - val) > Math.abs(prev - val) ? prev : curr
   })
-  return datas.find(d => d.val === classe)?.color || [0,0,0]
+  return analysis.find(d => d.val === classe)?.color || [0,0,0]
 }
 
-export function classWidth(val:number, datas:AnalyseInterface[]) {
-  const analysisClass = datas.map(d => d.val)
-  const classe = analysisClass.reduce((prev, curr) => {
+export function classWidth(val:number, analysis:AnalyseInterface[]) {
+  const classe = analysis.map(d => d.val).reduce((prev, curr) => {
     return Math.abs(curr - val) > Math.abs(prev - val) ? prev : curr
   })
-  return datas.find(d => d.val === classe)?.width
+  return analysis.find(d => d.val === classe)?.width || 1
 }
