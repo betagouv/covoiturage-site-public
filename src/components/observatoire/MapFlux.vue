@@ -3,7 +3,7 @@
     <div class="fr-col">
       <div class="fr-callout">
         <h3 class="fr-callout__title">Carte de Flux</h3>
-        <o-loading v-model:active="$loading" fullPage>
+        <o-loading v-model:active="loading" fullPage>
         </o-loading>
         <div id="map"></div>
         
@@ -19,7 +19,6 @@ import { useApi } from './helpers/api'
 import { classWidth, jenks } from './helpers/analyses'
 import type { AnalyseInterface } from '@/interfaces/observatoire/helpersInterfaces'
 import type { FluxData } from '@/interfaces/observatoire/dashboardInterfaces'
-import type { Map } from 'maplibre-gl'
 import type { PickingInfo } from '@deck.gl/core/typed'
 import { MapboxOverlay } from '@deck.gl/mapbox/typed'
 import { ArcLayer } from '@deck.gl/layers/typed'
@@ -28,7 +27,7 @@ import * as turf from '@turf/helpers'
 import bbox from '@turf/bbox'
 import { useStore } from '@nanostores/vue'
 import { territory, period } from '@/stores/dashboard'
-import { ref, Ref, shallowRef, onMounted, watch, computed } from 'vue'
+import { ref, Ref, watch, computed } from 'vue'
 
 const deck = new MapboxOverlay({
   interleaved: true,
@@ -61,24 +60,16 @@ const $period = useStore(period)
 const url = computed(() => {
   return `/monthly_flux?code=${$territory.value.territory}&type=com&observe=${$territory.value.type}&year=${$period.value.year}&month=${$period.value.month}`
 })
-
-const $data = ref<FluxData[]>()
-const $loading = ref<boolean>(false)
+const {loading, data } = useApi<FluxData[]>(url,{method:'get'})
 const analyse:Ref<AnalyseInterface[]> = ref([])
 const isHovering = ref(false)
 
-
-watch($period, async () => {
-  await updateData()
-})
-watch($territory, async () => {
-  await updateData()
-})
+watch(data,updateMap)
 
 function addArcLayer(){
   return new ArcLayer({
     id: 'flux-layer',
-    data:$data.value,
+    data:data.value,
     opacity:0.3,
     pickable: true,
     getWidth: (d:FluxData) => classWidth(d.passengers,analyse.value),
@@ -88,16 +79,8 @@ function addArcLayer(){
     getTargetColor:  [0,0,145],
   })
 }
-async function getData(){
-  const {loading, data} = await useApi<FluxData[]>({ 
-    method:'get',
-    url:url.value
-  })
-  $loading.value = loading.value
-  $data.value = data.value
-}
-async function updateData(){
-  await getData()
+
+async function updateMap(){
   await jenksAnalyse()
   const bounds = getBbox()
   map.value!.fitBounds(bounds as LngLatBoundsLike, {padding: 50})
@@ -105,15 +88,15 @@ async function updateData(){
 }
 
 async function jenksAnalyse(){
-  if ($data.value){
+  if (data.value){
     $territory.value.type !== 'country' 
-    ? analyse.value = jenks($data.value,'passengers',['#000091','#000091','#000091','#000091','#000091','#000091'],[1,3,6,12,24,48])
-    : analyse.value = jenks($data.value,'passengers',['#000091','#000091','#000091'],[3,12,48])
+    ? analyse.value = jenks(data.value,'passengers',['#000091','#000091','#000091','#000091','#000091','#000091'],[1,3,6,12,24,48])
+    : analyse.value = jenks(data.value,'passengers',['#000091','#000091','#000091'],[3,12,48])
   }
 }
 
 function getBbox(){
-  const coords = $data.value!.map(d => {return [[d.lng_1,d.lat_1],[d.lng_2,d.lat_2]]})
+  const coords = data.value!.map(d => {return [[d.lng_1,d.lat_1],[d.lng_2,d.lat_2]]})
     .reduce((acc, val) => acc.concat(val), [])
   const bounds = $territory.value.territory == 'XXXXX' ? [-5.225,41.333,9.55,51.2] : bbox(turf.multiPoint(coords))
   return bounds

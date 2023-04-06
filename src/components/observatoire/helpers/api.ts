@@ -1,14 +1,15 @@
-import { ref } from 'vue'
+import { ref, Ref, unref, isRef, watch } from 'vue'
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 import { useNotification } from './notifications'
 
-export async function useApi<T>(config:AxiosRequestConfig){
+export function useApi<T>(url:string | Ref<string>, config:AxiosRequestConfig){
   const loading = ref(false)
   const data = ref<T>()
   const error = ref<AxiosError>()
   const fetch = async () => { 
     try{
       loading.value = true
+      config.url = unref(url)
       const response = await axios.request(config)
       if(response.status === 204){
         useNotification({
@@ -36,7 +37,10 @@ export async function useApi<T>(config:AxiosRequestConfig){
       loading.value = false
     }
   }
-  await fetch()
+  if (isRef(url)) {
+    watch(url, fetch)
+  }
+  fetch()
   return { loading, data, error, fetch }
 }
 
