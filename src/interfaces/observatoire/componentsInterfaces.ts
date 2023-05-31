@@ -1,18 +1,20 @@
 import  type {  LayersList, PickingInfo } from '@deck.gl/core/typed'
 import { LngLatBoundsLike } from 'mapbox-gl'
+import { ReactNode } from 'react'
 
 export interface MapInterface{
   title?: string,
   height?: string | number,
   width?: string | number,
   initialView?: any,
-  mapStyle?: string, 
+  mapStyle?: string,
+  bounds?: LngLatBoundsLike,
+  children?: ReactNode, 
 }
 
 export interface DeckMapInterface extends MapInterface{
   layers?:  LayersList
   tooltip?: ((info: PickingInfo) => DeckTooltipContent) | null,
-  bounds?: LngLatBoundsLike, 
 }
 
 export interface DeckTooltipContent{

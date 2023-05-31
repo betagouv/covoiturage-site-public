@@ -31,6 +31,7 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "@types/geojson": "^7946.0.10",
     "sass": "^1.62.1"
   }
 }

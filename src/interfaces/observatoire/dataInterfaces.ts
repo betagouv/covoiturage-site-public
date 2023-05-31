@@ -1,3 +1,5 @@
+import { Feature } from "maplibre-gl";
+
 export interface FluxDataInterface{
   ter_1:string,
   lng_1:number,
@@ -13,4 +15,13 @@ export interface FluxDataInterface{
 export interface DensiteDataInterface{
   hex:string,
   count:number,
+}
+
+export interface OccupationDataInterface{
+  territory: string;
+  l_territory: string;
+  journeys: number;
+  has_incentive: number;
+  occupation_rate: number;
+  geom: Feature;
 }

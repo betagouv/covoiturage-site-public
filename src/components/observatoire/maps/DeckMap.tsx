@@ -28,8 +28,8 @@ const DeckMap = (props:DeckMapInterface) => {
     zoom: 5,
   };
   const getBounds = ()=>{
-    return props.bounds ? mapRef.current?.fitBounds(props.bounds) : []
-  }
+    return props.bounds ? mapRef.current?.fitBounds(props.bounds,{padding: 20}) : []
+  };
 
   return (
     <div className="fr-callout" >

@@ -1,17 +1,21 @@
 'use client'
 import MapGL from 'react-map-gl';
-import { NavigationControl } from 'react-map-gl';
+import { NavigationControl, MapRef } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import { MapInterface } from '@/interfaces/observatoire/componentsInterfaces';
+import { useRef } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-const defaultView = {
-  latitude: 46.9,
-  longitude: 1.7,
-  zoom: 5
-};
-
 const Map = (props:MapInterface) => {
+  const mapRef = useRef<MapRef>(null);
+  const defaultView = {
+    latitude: 46.9,
+    longitude: 1.7,
+    zoom: 5,
+  };
+  const getBounds = ()=>{
+    return props.bounds ? mapRef.current?.fitBounds(props.bounds,{padding: 20}) : []
+  }
   return (
     <div className="fr-callout">
       <h3 className="fr-callout__title">{ props.title }</h3>
@@ -23,8 +27,10 @@ const Map = (props:MapInterface) => {
           height: props.height? props.height : '60vh'
         }}
         mapStyle={props.mapStyle}
+        onLoad={ getBounds }
       >
         <NavigationControl />
+        { props.children }
       </MapGL>
     </div>
   );

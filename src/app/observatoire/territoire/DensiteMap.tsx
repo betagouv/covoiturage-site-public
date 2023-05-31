@@ -2,7 +2,7 @@
 import { fr } from '@codegouvfr/react-dsfr';
 import { useApi } from '@/hooks/useApi';
 import type { DensiteDataInterface } from '@/interfaces/observatoire/dataInterfaces'
-import { jenks, classColor } from '@/helpers/analyse';
+import { jenks, classColor, getPeriod } from '@/helpers/analyse';
 import { cellsToMultiPolygon } from 'h3-js';
 import { multiPolygon } from '@turf/helpers';
 import bbox from'@turf/bbox';
@@ -12,9 +12,10 @@ import { SearchParamsInterface } from '@/interfaces/observatoire/componentsInter
 import { LngLatBoundsLike } from 'mapbox-gl';
 import Legend from '@/components/observatoire/maps/Legend';
 
-export default function FluxMap({title, params}:{title:string, params:SearchParamsInterface}) {
+export default function DensiteMap({title, params}:{title:string, params:SearchParamsInterface}) {
   const mapTitle = title;
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/location?code=${params.code}&type=${params.observe}&start_date=2022-01-01&end_date=2022-01-31&zoom=7`;
+  const period = getPeriod(params.year,params.month);
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/location?code=${params.code}&type=${params.observe}&start_date=${period.start_date}&end_date=${period.end_date}&zoom=8`;
   const { data, error, loading} = useApi<DensiteDataInterface[]>(url);
   const mapStyle = 'https://openmaptiles.geo.data.gouv.fr/styles/osm-bright/style.json';
   const analyse = data ? jenks(data,'count',['#fdd49e','#fdbb84','#fc8d59','#e34a33','#b30000','#000000'],[10,10,10,10,10,10]) : [];

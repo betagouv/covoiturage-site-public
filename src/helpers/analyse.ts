@@ -33,3 +33,11 @@ export function classWidth(val:number, analysis:AnalyseInterface[]) {
   })
   return analysis.find(d => d.val === classe)?.width || 1
 }
+
+export function getPeriod(year:number,month:number){
+  const period = {
+    start_date: new Date(year, month-1,2).toISOString().slice(0, 10),
+    end_date: new Date(year, month).toISOString().slice(0, 10)
+  }
+  return period
+}
