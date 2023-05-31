@@ -1,0 +1,25 @@
+.col{
+  display: flex;
+}
+.stat{
+  align-items: stretch;
+  padding: 2rem 1rem;
+  text-align: right;
+  .fr-callout__title{
+    font-size: 2.5rem;
+    padding: 1rem 0;
+  }
+  .fr-callout__text{
+    font-size: 1rem;
+  }
+}
+.analyse{
+  align-items: stretch;
+  padding: 1rem;
+  .fr-callout__title{
+    font-size: 1rem;
+  }
+  .fr-callout__text{
+    font-size: 0.8rem;
+  }
+}
