@@ -26,6 +26,12 @@ export interface OccupationDataInterface{
   geom: Feature;
 }
 
+export interface TerritoryListInterface{
+  territory:string,
+  l_territory:string,
+  type:string,
+}
+
 export interface EvolDataInterface{
   year:number,
   month:number,
@@ -33,4 +39,7 @@ export interface EvolDataInterface{
 
 export interface EvolJourneysDataInterface extends EvolDataInterface{
   journeys:number,
+}
+export interface EvolDistanceDataInterface extends EvolDataInterface{
+  distance:number,
 }

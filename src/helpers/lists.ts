@@ -1,4 +1,4 @@
-export const yearList = ['2023','2022','2021','2020'];
+export const yearList = [2023,2022,2021,2020];
 
 export const monthList = [
   {id:1,name:'Janvier'},
