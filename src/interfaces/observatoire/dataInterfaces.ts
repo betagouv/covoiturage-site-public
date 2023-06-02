@@ -25,3 +25,12 @@ export interface OccupationDataInterface{
   occupation_rate: number;
   geom: Feature;
 }
+
+export interface EvolDataInterface{
+  year:number,
+  month:number,
+}
+
+export interface EvolJourneysDataInterface extends EvolDataInterface{
+  journeys:number,
+}
