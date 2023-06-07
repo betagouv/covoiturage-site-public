@@ -29,4 +29,6 @@ export interface SearchParamsInterface{
   observe: string,
   year: number,
   month: number,
+  map?: number,
+  graph?: number,
 }

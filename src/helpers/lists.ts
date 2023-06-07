@@ -1,4 +1,9 @@
-export const yearList = [2023,2022,2021,2020];
+export const yearList = [
+  {id:2023,name:'2023'},
+  {id:2022,name:'2022'},
+  {id:2021,name:'2021'},
+  {id:2020,name:'2020'},
+];
 
 export const monthList = [
   {id:1,name:'Janvier'},
@@ -23,3 +28,14 @@ export const territoryList = [
   {type:'reg',name:'Régions'},
   {type:'country',name:'Pays'}
 ];
+
+export const mapList = [
+  {id:1 ,name:'Flux de trajets'},
+  {id:2 ,name:'Densité de départs et arrivées dans une zone'},
+  {id:3 ,name:'Taux d\'occupation et nombre de véhicules partagés'},
+]
+
+export const graphList = [
+  {id:1 ,name:'Evolution du nombre de trajets'},
+  {id:2 ,name:'Evolution de la distance moyenne des trajets'},
+]

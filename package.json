@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "@codegouvfr/react-dsfr": "^0.55.1",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.13.4",
     "@turf/bbox": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "@types/node": "18.16.0",
