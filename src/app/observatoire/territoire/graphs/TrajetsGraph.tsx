@@ -32,7 +32,7 @@ export default function TrajetsGraph({title, params}:{title:string, params:Searc
   const options = {
     responsive: true,
   };
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/evol_monthly_flux?indic=journeys&code=${params.code}&type=${params.observe}&year=${params.year}&month=${params.month}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/evol_monthly_flux?indic=journeys&code=${params.code}&type=${params.type}&year=${params.year}&month=${params.month}`;
   const { data, error, loading} = useApi<EvolJourneysDataInterface[]>(url);
   
   const chartData = () => {

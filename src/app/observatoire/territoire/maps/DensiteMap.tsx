@@ -15,7 +15,7 @@ import Legend from '@/components/observatoire/maps/Legend';
 export default function DensiteMap({title, params}:{title:string, params:SearchParamsInterface}) {
   const mapTitle = title;
   const period = getPeriod(params.year,params.month);
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/location?code=${params.code}&type=${params.observe}&start_date=${period.start_date}&end_date=${period.end_date}&zoom=8`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/location?code=${params.code}&type=${params.type}&start_date=${period.start_date}&end_date=${period.end_date}&zoom=8`;
   const { data, error, loading} = useApi<DensiteDataInterface[]>(url);
   const mapStyle = 'https://openmaptiles.geo.data.gouv.fr/styles/osm-bright/style.json';
   const analyse = data ? jenks(data,'count',['#fdd49e','#fdbb84','#fc8d59','#e34a33','#b30000','#000000'],[10,10,10,10,10,10]) : [];

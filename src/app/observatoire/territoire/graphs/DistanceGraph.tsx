@@ -32,7 +32,7 @@ export default function DistanceGraph({title, params}:{title:string, params:Sear
   const options = {
     responsive: true,
   };
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/evol_monthly_flux?indic=distance&code=${params.code}&type=${params.observe}&year=${params.year}&month=${params.month}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/evol_monthly_flux?indic=distance&code=${params.code}&type=${params.type}&year=${params.year}&month=${params.month}`;
   const { data, error, loading} = useApi<EvolDistanceDataInterface[]>(url);
   
   const chartData = () => {

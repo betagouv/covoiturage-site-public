@@ -7,6 +7,7 @@ import SectionTitle from "@/components/common/SectionTitle";
 import SelectTerritory from "@/components/observatoire/SelectTerritory";
 import SelectPeriod from "@/components/observatoire/SelectPeriod";
 import KeyFigures from "./KeyFigures";
+import RepartitionDistanceGraph from "./graphs/RepartitionDistanceGraph";
 import { mapList, graphList } from '@/helpers/lists';
 import SelectInList from "@/components/common/SelectInList";
 import OccupationMap from "./maps/OccupationMap";
@@ -28,8 +29,8 @@ export default function Page({searchParams}: {searchParams:SearchParamsInterface
   const [params, setParams] = useState({
     code: searchParams.code ? searchParams.code : 'XXXXX',
     name: 'France',
-    type: searchParams.type ? searchParams.type : 'com',
-    observe: searchParams.observe ? searchParams.observe : 'country',
+    type: searchParams.type ? searchParams.type : 'country',
+    observe: searchParams.observe ? searchParams.observe : 'com',
     year: searchParams.year ? searchParams.year : 2022,
     month: searchParams.month ? searchParams.month : 1,
     map: searchParams.map ? searchParams.map : 1,
@@ -39,7 +40,7 @@ export default function Page({searchParams}: {searchParams:SearchParamsInterface
     setParams({...params, 
       code: value.territory,
       name: value.l_territory, 
-      observe: value.type
+      type: value.type
     })
   }
   const onChangePeriod = (value: {year: number, month: number}) => {
@@ -66,6 +67,15 @@ export default function Page({searchParams}: {searchParams:SearchParamsInterface
       </div>
       <SectionTitle title={`${params.name} du ${new Date(period.start_date).toLocaleDateString()} au ${new Date(period.end_date).toLocaleDateString()}`} />
       <KeyFigures params={params}/>
+      <div className={fr.cx('fr-grid-row','fr-grid-row--gutters')}>
+        <div className={fr.cx('fr-col')}>
+          <RepartitionDistanceGraph title='Trajets sortants par distance' direction='from' params={params}/>
+        </div>
+        <div className={fr.cx('fr-col')}>
+          <RepartitionDistanceGraph title='Trajets entrants par distance' direction='to' params={params}/>
+        </div>
+      </div>
+      
       <SectionTitle title="Cartographie" />
       <div className={fr.cx('fr-grid-row','fr-grid-row--gutters')}>
         <div className={fr.cx('fr-col')}>
