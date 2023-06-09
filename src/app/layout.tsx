@@ -1,11 +1,10 @@
+import { AppHeader } from "@/components/AppHeader";
 import { fr } from "@codegouvfr/react-dsfr";
-import { Display } from "@codegouvfr/react-dsfr/Display";
-import Footer from "@codegouvfr/react-dsfr/Footer";
-import Header from "@codegouvfr/react-dsfr/Header";
 import MuiDsfrThemeProvider from "@codegouvfr/react-dsfr/mui";
 import { DsfrHead } from "@codegouvfr/react-dsfr/next-appdir/DsfrHead";
 import { DsfrProvider } from "@codegouvfr/react-dsfr/next-appdir/DsfrProvider";
 import { getHtmlAttributes } from "@codegouvfr/react-dsfr/next-appdir/getHtmlAttributes";
+import { AppFooter } from "components/AppFooter";
 import Link from "next/link";
 import { StartDsfr } from "./StartDsfr";
 import { defaultColorScheme } from "./defaultColorScheme";
@@ -36,10 +35,9 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
       <body>
         <DsfrProvider>
           <MuiDsfrThemeProvider>
-            <Header />
+            <AppHeader />
             <div className={fr.cx("fr-container")}>{children}</div>
-            <Footer />
-            <Display />
+            <AppFooter />
           </MuiDsfrThemeProvider>
         </DsfrProvider>
       </body>
