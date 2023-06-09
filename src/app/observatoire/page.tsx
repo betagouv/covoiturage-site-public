@@ -1,12 +1,9 @@
-import  Map  from '@/components/observatoire/maps/Map'
+import Map from '@/components/observatoire/maps/Map';
+import { Config } from '@/config';
 
 export default function Observatoire() {
-  const title = 'test'
-  const mapStyle = 'https://openmaptiles.geo.data.gouv.fr/styles/osm-bright/style.json';
-  return (
-      <Map 
-        title={title}
-        mapStyle={mapStyle}
-      />    
-  )
+  const title = 'test';
+  const mapStyle = Config.get<string>('observatoire.mapStyle');
+
+  return <Map title={title} mapStyle={mapStyle} />;
 }

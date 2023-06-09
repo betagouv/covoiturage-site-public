@@ -1,5 +1,5 @@
 export interface AnalyseInterface {
-  val:number,
-  color:[number,number,number],
-  width:number
+  val: number;
+  color: [number, number, number];
+  width: number;
 }

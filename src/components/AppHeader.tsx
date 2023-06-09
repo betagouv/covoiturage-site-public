@@ -1,5 +1,5 @@
-import { Header } from "@codegouvfr/react-dsfr/Header";
-import Navigation from "./Navigation";
+import { Header } from '@codegouvfr/react-dsfr/Header';
+import Navigation from './Navigation';
 
 export function AppHeader() {
   return (
@@ -14,18 +14,18 @@ export function AppHeader() {
         </>
       }
       homeLinkProps={{
-        href: "/",
-        title: "Accueil - Site national du covoiturage au quotidien",
+        href: '/',
+        title: 'Accueil - Site national du covoiturage au quotidien',
       }}
-      serviceTitle="COVOITURAGE.ecologie.gouv.fr"
-      serviceTagline="Développer le covoiturage courte distance"
+      serviceTitle='COVOITURAGE.ecologie.gouv.fr'
+      serviceTagline='Développer le covoiturage courte distance'
       quickAccessItems={[
         {
-          iconId: "fr-icon-account-line",
+          iconId: 'fr-icon-account-line',
           linkProps: {
-            href: "https://app.covoiturage.beta.gouv.fr",
+            href: 'https://app.covoiturage.beta.gouv.fr',
           },
-          text: "Connexion",
+          text: 'Connexion',
         },
       ]}
       navigation={<Navigation />}

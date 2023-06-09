@@ -4,23 +4,23 @@ import Analyse from './Analyse';
 
 type IndicatorsRowProps = {
   indicators: {
-    value: string,
-    info?: string,
-    title: string,
-  }[],
+    value: string;
+    info?: string;
+    title: string;
+  }[];
   analyse?: {
-    title?: string,
-    content: string,
-  }
-
-}
-export default function IndicatorsRow(props: IndicatorsRowProps ) {
+    title?: string;
+    content: string;
+  };
+};
+export default function IndicatorsRow(props: IndicatorsRowProps) {
   return (
-    <div className={fr.cx('fr-grid-row','fr-grid-row--gutters')}>
-      { props.indicators.length > 0 && props.indicators.map( (i) => {
-        return <SingleIndicator key={i.value} value={i.value} info={i.info} title={i.title} style='fr-col-md-3' />
-      }) }
-      { props.analyse && <Analyse title={props.analyse.title} content={props.analyse.content} />}
+    <div className={fr.cx('fr-grid-row', 'fr-grid-row--gutters')}>
+      {props.indicators.length > 0 &&
+        props.indicators.map((i) => {
+          return <SingleIndicator key={i.value} value={i.value} info={i.info} title={i.title} style='fr-col-md-3' />;
+        })}
+      {props.analyse && <Analyse title={props.analyse.title} content={props.analyse.content} />}
     </div>
-  )
+  );
 }
