@@ -1,6 +1,7 @@
 import { DsfrHead } from "@codegouvfr/react-dsfr/next-appdir/DsfrHead";
 import { DsfrProvider } from "@codegouvfr/react-dsfr/next-appdir/DsfrProvider";
 import { getColorSchemeHtmlAttributes } from "@codegouvfr/react-dsfr/next-appdir/getColorSchemeHtmlAttributes";
+import MuiDsfrThemeProvider from "@codegouvfr/react-dsfr/mui";
 import StartDsfr from "./StartDsfr";
 import { defaultColorScheme } from "./defaultColorScheme";
 import Header from "@/components/Header";
@@ -20,12 +21,14 @@ export default function RootLayout({ children }: { children: ReactNode; }) {
       </head>
       <body>
         <DsfrProvider defaultColorScheme={defaultColorScheme}>
-          <Header />
-          <div className={fr.cx('fr-container')}>
-            {children}
-          </div>
-          <Footer />
-          <Display />
+          <MuiDsfrThemeProvider>
+            <Header />
+            <div className={fr.cx('fr-container')}>
+              {children}
+            </div>
+            <Footer />
+            <Display />
+          </MuiDsfrThemeProvider>
         </DsfrProvider>
       </body>
     </html>
