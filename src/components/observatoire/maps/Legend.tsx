@@ -1,11 +1,13 @@
 import styles from '@/styles/observatoire/maps/Legend.module.scss';
 
-const Legend = (props:any) => {
+interface Props {
+  title: string;
+}
+
+export function Legend(props: Props) {
   return (
     <div className={styles.legend}>
       <div className={styles.legend_title}>{props.title}</div>
     </div>
   );
-};
-
-export default Legend;
+}

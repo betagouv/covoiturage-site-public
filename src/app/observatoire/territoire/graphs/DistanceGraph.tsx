@@ -1,81 +1,71 @@
-'use client'
-import { fr } from '@codegouvfr/react-dsfr';
+'use client';
 import { monthList } from '@/helpers/lists';
 import { useApi } from '@/hooks/useApi';
 import { SearchParamsInterface } from '@/interfaces/observatoire/componentsInterfaces';
 import { EvolDistanceDataInterface } from '@/interfaces/observatoire/dataInterfaces';
+import { fr } from '@codegouvfr/react-dsfr';
 import {
-  Chart as ChartJS,
   CategoryScale,
+  Chart as ChartJS,
+  Filler,
+  Legend,
+  LineElement,
   LinearScale,
   PointElement,
-  LineElement,
   Title,
   Tooltip,
-  Legend,
-  Filler,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
-export default function DistanceGraph({title, params}:{title:string, params:SearchParamsInterface}) {
+export default function DistanceGraph({ title, params }: { title: string; params: SearchParamsInterface }) {
   const options = {
     responsive: true,
   };
   const url = `${process.env.NEXT_PUBLIC_API_URL}/evol_monthly_flux?indic=distance&code=${params.code}&type=${params.type}&year=${params.year}&month=${params.month}`;
-  const { data, error, loading} = useApi<EvolDistanceDataInterface[]>(url);
-  
+  const { data, error, loading } = useApi<EvolDistanceDataInterface[]>(url);
+
   const chartData = () => {
-    const labels = data?.map((d) =>{ 
-      const month = monthList.find(m => m.id == d.month)
-      return month!.name + ' '+ d.year
+    const labels = data?.map((d) => {
+      const month = monthList.find((m) => m.id == d.month);
+      return month!.name + ' ' + d.year;
     });
-    const datasets = [{
-      label:'Distance moyenne des trajets (en km)',
-      data:data?.map(d => d.distance).reverse(),
-      fill:true,
-      borderColor:'#000091',
-      backgroundColor:'rgba(0, 0, 145, 0.2)',
-      tension: 0.1,
-    }];
-    return { labels:labels!.reverse(), datasets:datasets }
+    const datasets = [
+      {
+        label: 'Distance moyenne des trajets (en km)',
+        data: data?.map((d) => d.distance).reverse(),
+        fill: true,
+        borderColor: '#000091',
+        backgroundColor: 'rgba(0, 0, 145, 0.2)',
+        tension: 0.1,
+      },
+    ];
+    return { labels: labels!.reverse(), datasets: datasets };
   };
 
   return (
     <>
-      {
-        loading && 
+      {loading && (
         <div className={fr.cx('fr-callout')}>
-          <h3 className={fr.cx('fr-callout__title')}>{ title }</h3>
+          <h3 className={fr.cx('fr-callout__title')}>{title}</h3>
           <div>Chargement en cours...</div>
         </div>
-      }
-      { 
-        error && 
+      )}
+      {error && (
         <div className={fr.cx('fr-callout')}>
-          <h3 className={fr.cx('fr-callout__title')}>{ title }</h3>
+          <h3 className={fr.cx('fr-callout__title')}>{title}</h3>
           <div>{`Un problème est survenu au chargement des données: ${error}`}</div>
         </div>
-      }
-      {
-        !loading && !error &&
+      )}
+      {!loading && !error && (
         <div className={fr.cx('fr-callout')}>
-          <h3 className={fr.cx('fr-callout__title')}>{ title }</h3>
-          <div className='graph-wrapper' style={{backgroundColor:'#fff'}}>
+          <h3 className={fr.cx('fr-callout__title')}>{title}</h3>
+          <div className='graph-wrapper' style={{ backgroundColor: '#fff' }}>
             <Line options={options} data={chartData()} />
           </div>
         </div>
-      }
+      )}
     </>
-  )
+  );
 }

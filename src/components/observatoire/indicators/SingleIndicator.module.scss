@@ -1,16 +1,16 @@
-.col{
-  display:flex;
+.col {
+  display: flex;
 }
-.stat{
+.stat {
   align-items: stretch;
   padding: 2rem 1rem;
   text-align: right;
   width: 100%;
-  .value{
+  .value {
     font-size: 2.5rem;
     padding: 1rem 0;
   }
-  .title{
+  .title {
     font-size: 1rem;
   }
 }

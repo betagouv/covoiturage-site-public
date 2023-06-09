@@ -1,4 +1,4 @@
-import { ButtonsGroup } from "@codegouvfr/react-dsfr/ButtonsGroup";
+import { ButtonsGroup } from '@codegouvfr/react-dsfr/ButtonsGroup';
 import { fr } from '@codegouvfr/react-dsfr';
 
 export default function Definition() {
@@ -10,25 +10,25 @@ export default function Definition() {
    d’un trajet entre un conducteur et un passager. En conséquence, le covoiturage peut donc être interne à la famille ou 
    extra familial tel que pour des trajets réalisés dans le cadre de sorties de loisirs proches (réunion associative, etc.) 
    ou plus éloignées (balade, cinéma, piscine, salle de sport, etc.).`;
-  
+
   return (
-    <div id='definition' className={fr.cx('fr-grid-row','fr-py-5v')}>
+    <div id='definition' className={fr.cx('fr-grid-row', 'fr-py-5v')}>
       <div className={fr.cx('fr-col')}>
         <h2>{defTitle}</h2>
         <p>{def}</p>
         <ButtonsGroup
-          alignment="right"
-          buttonsEquisized 
+          alignment='right'
+          buttonsEquisized
           buttons={[
             {
               children: 'En savoir plus',
               linkProps: {
-                href: '#'
-              }
-            }
+                href: '#',
+              },
+            },
           ]}
-        />             
+        />
       </div>
     </div>
-  )
+  );
 }

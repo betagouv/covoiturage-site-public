@@ -1,5 +1,5 @@
-import PageTitle from "@/components/common/PageTitle";
-import  Map  from '@/components/observatoire/maps/Map';
+import PageTitle from '@/components/common/PageTitle';
+import Map from '@/components/observatoire/maps/Map';
 
 export default function Page() {
   const title = 'test';
@@ -7,11 +7,7 @@ export default function Page() {
   return (
     <article id='content'>
       <PageTitle title={title} />
-      <Map 
-        title={title}
-        mapStyle={mapStyle}
-      />
+      <Map title={title} mapStyle={mapStyle} />
     </article>
-    
-  )
+  );
 }
