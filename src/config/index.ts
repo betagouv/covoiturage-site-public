@@ -3,8 +3,10 @@
  * 2. add the configuration to the object in objectToMap()
  */
 import { observatoire } from './observatoire';
+import { directus } from './directus';
 
 const _configuration = objectToMap({
+  directus,
   observatoire,
   next: nextEnvironmentVariables(),
 });
@@ -13,10 +15,9 @@ const _configuration = objectToMap({
 // Helpers and export
 // ---------------------------------------------------------------------------------------
 
-type ConfigValue = string | number | boolean | null | { [key: string]: ConfigValue };
-type Value = string | number | boolean | null;
+export type ConfigObject = string | number | boolean | null | { [key: string]: ConfigObject } | undefined;
 
-function nextEnvironmentVariables(): ConfigValue {
+function nextEnvironmentVariables(): ConfigObject {
   return Object.entries(process.env)
     .filter(([key]) => key.startsWith('NEXT_'))
     .filter(([key]) => typeof process.env[key] !== 'undefined')
@@ -27,7 +28,7 @@ function nextEnvironmentVariables(): ConfigValue {
     }, {} as Record<string, any>);
 }
 
-function objectToMap(obj: ConfigValue): Map<string, ConfigValue> {
+function objectToMap(obj: ConfigObject): Map<string, ConfigObject> {
   const map = new Map();
 
   if (typeof obj === 'object' && obj !== null) {
@@ -48,7 +49,7 @@ function objectToMap(obj: ConfigValue): Map<string, ConfigValue> {
 }
 
 export const Config = {
-  get<T extends Value>(key: string, defaultValue?: T): T {
+  get<T>(key: string, defaultValue?: T): T {
     let _value: unknown = _configuration;
     for (const part of key.split('.')) {
       _value = _value instanceof Map && _value.has(part) ? _value.get(part) : undefined;
