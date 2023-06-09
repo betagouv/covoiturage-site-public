@@ -1,5 +1,6 @@
 'use client';
 import DeckMap from '@/components/observatoire/maps/DeckMap';
+import { Config } from '@/config';
 import { classWidth, jenks } from '@/helpers/analyse';
 import { useApi } from '@/hooks/useApi';
 import { SearchParamsInterface } from '@/interfaces/observatoire/componentsInterfaces';
@@ -12,9 +13,10 @@ import { LngLatBoundsLike } from 'mapbox-gl';
 
 export default function FluxMap({ title, params }: { title: string; params: SearchParamsInterface }) {
   const mapTitle = title;
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/monthly_flux?code=${params.code}&type=${params.type}&observe=${params.observe}&year=${params.year}&month=${params.month}`;
+  const apiUrl = Config.get<string>('next.public_api_url', '');
+  const url = `${apiUrl}/monthly_flux?code=${params.code}&type=${params.type}&observe=${params.observe}&year=${params.year}&month=${params.month}`;
   const { data, error, loading } = useApi<FluxDataInterface[]>(url);
-  const mapStyle = 'https://openmaptiles.geo.data.gouv.fr/styles/osm-bright/style.json';
+  const mapStyle = Config.get<string>('observatoire.mapStyle');
   const analyse = data
     ? jenks(
         data,

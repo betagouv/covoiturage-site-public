@@ -1,10 +1,12 @@
 import IndicatorsRow from '@/components/observatoire/indicators/IndicatorsRow';
+import { Config } from '@/config';
 import { useApi } from '@/hooks/useApi';
 import { SearchParamsInterface } from '@/interfaces/observatoire/componentsInterfaces';
 import { KeyFiguresDataInterface } from '@/interfaces/observatoire/dataInterfaces';
 
 export default function KeyFigures({ params }: { params: SearchParamsInterface }) {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/monthly_keyfigures?code=${params.code}&type=${params.type}&year=${params.year}&month=${params.month}`;
+  const apiUrl = Config.get<string>('next.public_api_url', '');
+  const url = `${apiUrl}/monthly_keyfigures?code=${params.code}&type=${params.type}&year=${params.year}&month=${params.month}`;
   const { data } = useApi<KeyFiguresDataInterface[]>(url);
   const row1 = data
     ? [

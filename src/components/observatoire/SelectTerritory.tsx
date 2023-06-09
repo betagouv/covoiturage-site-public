@@ -1,3 +1,4 @@
+import { Config } from '@/config';
 import { useApi } from '@/hooks/useApi';
 import { TerritoryListInterface } from '@/interfaces/observatoire/dataInterfaces';
 import { Autocomplete, TextField, createFilterOptions } from '@mui/material';
@@ -10,7 +11,8 @@ type SelectTerritoryProps = {
 };
 
 export default function SelectTerritory(props: SelectTerritoryProps) {
-  const territoryUrl = `${process.env.NEXT_PUBLIC_API_URL}/territories?year=${props.year}`;
+  const apiUrl = Config.get<string>('next.public_api_url', '');
+  const territoryUrl = `${apiUrl}/territories?year=${props.year}`;
   const { data } = useApi<TerritoryListInterface[]>(territoryUrl);
 
   return (

@@ -1,4 +1,5 @@
 'use client';
+import { Config } from '@/config';
 import { useApi } from '@/hooks/useApi';
 import { SearchParamsInterface } from '@/interfaces/observatoire/componentsInterfaces';
 import { DistributionDistanceDataInterface } from '@/interfaces/observatoire/dataInterfaces';
@@ -26,7 +27,9 @@ export default function RepartitionDistanceGraph({
       },
     },
   };
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/journeys_by_distances?code=${params.code}&type=${params.type}&year=${params.year}&month=${params.month}`;
+
+  const apiUrl = Config.get<string>('next.public_api_url', '');
+  const url = `${apiUrl}/journeys_by_distances?code=${params.code}&type=${params.type}&year=${params.year}&month=${params.month}`;
   const { data, error, loading } = useApi<DistributionDistanceDataInterface[]>(url);
 
   const chartData = () => {

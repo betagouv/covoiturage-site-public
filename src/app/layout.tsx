@@ -1,10 +1,10 @@
+import { AppFooter } from '@/components/AppFooter';
 import { AppHeader } from '@/components/AppHeader';
 import { fr } from '@codegouvfr/react-dsfr';
 import MuiDsfrThemeProvider from '@codegouvfr/react-dsfr/mui';
 import { DsfrHead } from '@codegouvfr/react-dsfr/next-appdir/DsfrHead';
 import { DsfrProvider } from '@codegouvfr/react-dsfr/next-appdir/DsfrProvider';
 import { getHtmlAttributes } from '@codegouvfr/react-dsfr/next-appdir/getHtmlAttributes';
-import { AppFooter } from 'components/AppFooter';
 import Link from 'next/link';
 import { StartDsfr } from './StartDsfr';
 import { defaultColorScheme } from './defaultColorScheme';

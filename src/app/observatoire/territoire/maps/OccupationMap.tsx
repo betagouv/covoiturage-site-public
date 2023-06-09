@@ -1,5 +1,6 @@
 'use client';
 import Map from '@/components/observatoire/maps/Map';
+import { Config } from '@/config';
 import { useApi } from '@/hooks/useApi';
 import { SearchParamsInterface } from '@/interfaces/observatoire/componentsInterfaces';
 import type { OccupationDataInterface } from '@/interfaces/observatoire/dataInterfaces';
@@ -13,7 +14,8 @@ import { Layer, LayerProps, Source } from 'react-map-gl';
 
 export default function OccupationMap({ title, params }: { title: string; params: SearchParamsInterface }) {
   const mapTitle = title;
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/monthly_occupation?code=${params.code}&type=${params.type}&observe=${params.observe}&year=${params.year}&month=${params.month}`;
+  const apiUrl = Config.get<string>('next.public_api_url', '');
+  const url = `${apiUrl}/monthly_occupation?code=${params.code}&type=${params.type}&observe=${params.observe}&year=${params.year}&month=${params.month}`;
   const { data, error, loading } = useApi<OccupationDataInterface[]>(url);
   const geojson = useMemo(() => {
     const occupationData = data ? data : [];
@@ -62,8 +64,7 @@ export default function OccupationMap({ title, params }: { title: string; params
     },
   };
 
-  // TODO centralise this in a config file
-  const mapStyle = 'https://openmaptiles.geo.data.gouv.fr/styles/osm-bright/style.json';
+  const mapStyle = Config.get<string>('observatoire.mapStyle');
 
   // const categories = [
   //   { color: [229, 229, 224], val: '>= 100 000', width: 40, active: true },
