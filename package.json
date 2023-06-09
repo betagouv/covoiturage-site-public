@@ -3,41 +3,41 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 4200",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
+    "dev": "NEXT_TELEMETRY_DISABLED=1 next dev -p 4200",
+    "build": "NEXT_TELEMETRY_DISABLED=1 next build",
+    "start": "NEXT_TELEMETRY_DISABLED=1 next start",
+    "lint": "NEXT_TELEMETRY_DISABLED=1 next lint",
     "predev": "only-include-used-icons",
     "prebuild": "only-include-used-icons"
   },
   "dependencies": {
-    "@codegouvfr/react-dsfr": "^0.55.1",
-    "@emotion/react": "^11.11.0",
+    "@codegouvfr/react-dsfr": "0.61.0",
+    "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.13.4",
     "@turf/bbox": "^6.5.0",
     "@turf/helpers": "^6.5.0",
-    "@types/node": "18.16.0",
-    "@types/react": "18.2.0",
-    "@types/react-dom": "18.2.0",
     "chart.js": "^4.3.0",
     "chartjs-plugin-datalabels": "^2.2.0",
-    "deck.gl": "^8.9.16",
-    "eslint": "8.39.0",
-    "eslint-config-next": "13.3.1",
+    "deck.gl": "^8.9.18",
+    "eslint": "^8.42.0",
+    "eslint-config-next": "13.4",
     "h3-js": "^4.1.0",
     "mapbox-gl": "npm:empty-npm-package@^1.0.0",
-    "maplibre-gl": "^3.0.0",
-    "next": "^13.4.3",
+    "maplibre-gl": "^3.0.1",
+    "next": "^13.4.4",
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",
     "react-map-gl": "^7.0.25",
-    "simple-statistics": "^7.8.3",
-    "typescript": "5.0.4"
+    "simple-statistics": "^7.8.3"
   },
   "devDependencies": {
     "@types/geojson": "^7946.0.10",
-    "sass": "^1.62.1"
+    "@types/node": "^20.2.5",
+    "@types/react": "^18.2.9",
+    "@types/react-dom": "^18.2.4",
+    "sass": "^1.63.3",
+    "typescript": "5.0"
   }
 }
