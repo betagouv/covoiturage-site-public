@@ -1,4 +1,3 @@
-'use client';
 import DeckMap from '@/components/observatoire/maps/DeckMap';
 import { Config } from '@/config';
 import { classWidth, jenks } from '@/helpers/analyse';
@@ -70,7 +69,7 @@ export default function FluxMap({ title, params }: { title: string; params: Sear
       {loading && (
         <div className={fr.cx('fr-callout')}>
           <h3 className={fr.cx('fr-callout__title')}>{title}</h3>
-          <div>{Config.get<string>('next.test')}</div>
+          <div>Chargement en cours...</div>
         </div>
       )}
       {error && (

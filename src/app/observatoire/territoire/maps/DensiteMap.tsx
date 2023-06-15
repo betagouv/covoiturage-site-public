@@ -1,4 +1,3 @@
-'use client';
 import DeckMap from '@/components/observatoire/maps/DeckMap';
 import { Config } from '@/config';
 import { classColor, getPeriod, jenks } from '@/helpers/analyse';

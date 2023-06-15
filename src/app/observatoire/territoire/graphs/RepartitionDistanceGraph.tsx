@@ -1,4 +1,3 @@
-'use client';
 import { Config } from '@/config';
 import { useApi } from '@/hooks/useApi';
 import { SearchParamsInterface } from '@/interfaces/observatoire/componentsInterfaces';

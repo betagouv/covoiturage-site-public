@@ -1,4 +1,3 @@
-'use client';
 import Map from '@/components/observatoire/maps/Map';
 import { Config } from '@/config';
 import { useApi } from '@/hooks/useApi';

@@ -1,4 +1,3 @@
-'use client';
 import { Config } from '@/config';
 import { monthList } from '@/helpers/lists';
 import { useApi } from '@/hooks/useApi';
