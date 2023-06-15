@@ -6,7 +6,7 @@ import { KeyFiguresDataInterface } from '@/interfaces/observatoire/dataInterface
 
 export default function KeyFigures({ params }: { params: SearchParamsInterface }) {
   const apiUrl = Config.get<string>('next.public_api_url', '');
-  const url = `${apiUrl}/monthly_keyfigures?code=${params.code}&type=${params.type}&year=${params.year}&month=${params.month}`;
+  const url = `${apiUrl}/monthly-keyfigures?code=${params.code}&type=${params.type}&year=${params.year}&month=${params.month}`;
   const { data } = useApi<KeyFiguresDataInterface[]>(url);
   const row1 = data
     ? [

@@ -26,7 +26,7 @@ export default function TrajetsGraph({ title, params }: { title: string; params:
   };
 
   const apiUrl = Config.get<string>('next.public_api_url', '');
-  const url = `${apiUrl}/evol_monthly_flux?indic=journeys&code=${params.code}&type=${params.type}&year=${params.year}&month=${params.month}`;
+  const url = `${apiUrl}/evol-monthly-flux?indic=journeys&code=${params.code}&type=${params.type}&year=${params.year}&month=${params.month}`;
   const { data, error, loading } = useApi<EvolJourneysDataInterface[]>(url);
 
   const chartData = () => {

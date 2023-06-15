@@ -13,8 +13,8 @@ import { LngLatBoundsLike } from 'mapbox-gl';
 
 export default function FluxMap({ title, params }: { title: string; params: SearchParamsInterface }) {
   const mapTitle = title;
-  const apiUrl = Config.get<string>('next.public_api_url', '');
-  const url = `${apiUrl}/monthly_flux?code=${params.code}&type=${params.type}&observe=${params.observe}&year=${params.year}&month=${params.month}`;
+  const apiUrl = Config.get('next.public_api_url', '');
+  const url = `${apiUrl}/monthly-flux?code=${params.code}&type=${params.type}&observe=${params.observe}&year=${params.year}&month=${params.month}`;
   const { data, error, loading } = useApi<FluxDataInterface[]>(url);
   const mapStyle = Config.get<string>('observatoire.mapStyle');
   const analyse = data
@@ -70,7 +70,7 @@ export default function FluxMap({ title, params }: { title: string; params: Sear
       {loading && (
         <div className={fr.cx('fr-callout')}>
           <h3 className={fr.cx('fr-callout__title')}>{title}</h3>
-          <div>Chargement en cours...</div>
+          <div>{Config.get<string>('next.test')}</div>
         </div>
       )}
       {error && (

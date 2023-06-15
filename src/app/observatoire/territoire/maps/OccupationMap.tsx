@@ -15,7 +15,7 @@ import { Layer, LayerProps, Source } from 'react-map-gl';
 export default function OccupationMap({ title, params }: { title: string; params: SearchParamsInterface }) {
   const mapTitle = title;
   const apiUrl = Config.get<string>('next.public_api_url', '');
-  const url = `${apiUrl}/monthly_occupation?code=${params.code}&type=${params.type}&observe=${params.observe}&year=${params.year}&month=${params.month}`;
+  const url = `${apiUrl}/monthly-occupation?code=${params.code}&type=${params.type}&observe=${params.observe}&year=${params.year}&month=${params.month}`;
   const { data, error, loading } = useApi<OccupationDataInterface[]>(url);
   const geojson = useMemo(() => {
     const occupationData = data ? data : [];

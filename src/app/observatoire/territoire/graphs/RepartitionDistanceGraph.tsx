@@ -29,7 +29,7 @@ export default function RepartitionDistanceGraph({
   };
 
   const apiUrl = Config.get<string>('next.public_api_url', '');
-  const url = `${apiUrl}/journeys_by_distances?code=${params.code}&type=${params.type}&year=${params.year}&month=${params.month}`;
+  const url = `${apiUrl}/journeys-by-distances?code=${params.code}&type=${params.type}&year=${params.year}&month=${params.month}`;
   const { data, error, loading } = useApi<DistributionDistanceDataInterface[]>(url);
 
   const chartData = () => {
