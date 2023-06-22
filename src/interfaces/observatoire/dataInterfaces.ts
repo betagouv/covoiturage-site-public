@@ -1,5 +1,5 @@
 import { Feature } from 'maplibre-gl';
-import { Direction, Distance, PerimeterLabel, PerimeterType } from './Perimeter';
+import { Direction, Distance, Hour, PerimeterLabel, PerimeterType } from './Perimeter';
 
 export interface KeyFiguresDataInterface {
   territory: PerimeterType;
@@ -63,4 +63,10 @@ export interface DistributionDistanceDataInterface {
   l_territory: PerimeterLabel;
   direction: Direction;
   distances: Array<Distance>;
+}
+export interface DistributionHoraireDataInterface {
+  territory: PerimeterType;
+  l_territory: PerimeterLabel;
+  direction: Direction;
+  hours: Array<Hour>;
 }

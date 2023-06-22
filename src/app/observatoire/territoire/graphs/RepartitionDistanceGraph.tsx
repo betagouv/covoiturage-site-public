@@ -3,7 +3,7 @@ import { useApi } from '@/hooks/useApi';
 import { SearchParamsInterface } from '@/interfaces/observatoire/componentsInterfaces';
 import { DistributionDistanceDataInterface } from '@/interfaces/observatoire/dataInterfaces';
 import { fr } from '@codegouvfr/react-dsfr';
-import { ArcElement, Chart as ChartJS, Legend, Title, Tooltip } from 'chart.js';
+import { ArcElement, ChartData, Chart as ChartJS, Legend, Title, Tooltip } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Doughnut } from 'react-chartjs-2';
 
@@ -35,7 +35,7 @@ export default function RepartitionDistanceGraph({
     const labels = ['< 10 km', '10-20 km', '20-30 km', '30-40 km', '40-50 km', '> 50 km'];
     const datasets = [
       {
-        data: data ? data.find((d) => d.direction === direction)!.distances.map((d) => d.journeys) : [],
+        data: data ? data.find((d) => d.direction === direction)?.distances.map((d) => d.journeys) : [],
         backgroundColor: ['#08519c', '#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#eff3ff'],
         datalabels: {
           labels: {
@@ -99,7 +99,7 @@ export default function RepartitionDistanceGraph({
         <div className={fr.cx('fr-callout')}>
           <h3 className={fr.cx('fr-callout__title')}>{title}</h3>
           <div className='graph-wrapper' style={{ backgroundColor: '#fff' }}>
-            <Doughnut options={options} data={chartData()} />
+            <Doughnut options={options} data={chartData() as ChartData<"doughnut",number[]>} />
           </div>
         </div>
       )}

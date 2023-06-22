@@ -8,6 +8,7 @@ import SelectTerritory from '@/components/observatoire/SelectTerritory';
 import SelectPeriod from '@/components/observatoire/SelectPeriod';
 import KeyFigures from './KeyFigures';
 import RepartitionDistanceGraph from './graphs/RepartitionDistanceGraph';
+import RepartitionHoraireGraph from './graphs/RepartitionHoraireGraph';
 import { mapList, graphList } from '@/helpers/lists';
 import SelectInList from '@/components/common/SelectInList';
 import OccupationMap from './maps/OccupationMap';
@@ -72,6 +73,14 @@ export default function Page({ searchParams }: { searchParams: SearchParamsInter
         </div>
         <div className={fr.cx('fr-col')}>
           <RepartitionDistanceGraph title='Trajets entrants par distance' direction='to' params={params} />
+        </div>
+      </div>
+      <div className={fr.cx('fr-grid-row', 'fr-grid-row--gutters')}>
+        <div className={fr.cx('fr-col')}>
+          <RepartitionHoraireGraph title='Trajets sortants par horaire' direction='from' params={params} />
+        </div>
+        <div className={fr.cx('fr-col')}>
+          <RepartitionHoraireGraph title='Trajets entrants par horaire' direction='to' params={params} />
         </div>
       </div>
 

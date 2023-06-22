@@ -16,3 +16,7 @@ export type Distance = {
   dist_classes: string;
   journeys: number;
 };
+export type Hour = {
+  hour: number;
+  journeys: number;
+};
