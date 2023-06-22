@@ -70,3 +70,17 @@ export interface DistributionHoraireDataInterface {
   direction: Direction;
   hours: Array<Hour>;
 }
+
+export interface BestFluxDataInterface {
+  territory_1: string;
+  l_territory_1: string;
+  territory_2: string;
+  l_territory_2: string;
+  journeys: number;
+}
+
+export interface BestTerritoriesDataInterface {
+  territory: string;
+  l_territory: string;
+  journeys: number;
+}

@@ -9,6 +9,8 @@ import SelectPeriod from '@/components/observatoire/SelectPeriod';
 import KeyFigures from './KeyFigures';
 import RepartitionDistanceGraph from './graphs/RepartitionDistanceGraph';
 import RepartitionHoraireGraph from './graphs/RepartitionHoraireGraph';
+import BestFluxTable from './tables/BestFluxTable';
+import BestTerritoriesTable from './tables/BestTerritoriesTable';
 import { mapList, graphList } from '@/helpers/lists';
 import SelectInList from '@/components/common/SelectInList';
 import OccupationMap from './maps/OccupationMap';
@@ -25,7 +27,7 @@ import { TerritoryListInterface } from '@/interfaces/observatoire/dataInterfaces
 import { getPeriod } from '@/helpers/analyse';
 
 export default function Page({ searchParams }: { searchParams: SearchParamsInterface }) {
-  const title = 'Observer un territoire';
+  const title = 'Observer le covoiturage courte distance intermédié';
   const [params, setParams] = useState({
     code: searchParams.code ? searchParams.code : 'XXXXX',
     name: 'France',
@@ -81,6 +83,14 @@ export default function Page({ searchParams }: { searchParams: SearchParamsInter
         </div>
         <div className={fr.cx('fr-col')}>
           <RepartitionHoraireGraph title='Trajets entrants par horaire' direction='to' params={params} />
+        </div>
+      </div>
+      <div className={fr.cx('fr-grid-row', 'fr-grid-row--gutters')}>
+        <div className={fr.cx('fr-col')}>
+          <BestFluxTable title='Top 10 des trajets les plus covoiturés' limit={10} params={params} />
+        </div>
+        <div className={fr.cx('fr-col')}>
+          <BestTerritoriesTable title='Top 10 des territoires' limit={10} params={params} />
         </div>
       </div>
 
