@@ -28,6 +28,7 @@ const Map = (props: MapInterface) => {
         }}
         mapStyle={props.mapStyle}
         onLoad={getBounds}
+        scrollZoom={props.scrollZoom}
       >
         <NavigationControl />
         {props.children}

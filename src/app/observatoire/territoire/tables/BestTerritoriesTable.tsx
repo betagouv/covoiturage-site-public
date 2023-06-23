@@ -3,7 +3,23 @@ import { useApi } from "@/hooks/useApi";
 import { SearchParamsInterface } from "@/interfaces/observatoire/componentsInterfaces";
 import { BestTerritoriesDataInterface } from "@/interfaces/observatoire/dataInterfaces";
 import { fr } from "@codegouvfr/react-dsfr";
-import { Table } from "@codegouvfr/react-dsfr/Table"
+import { Table as TableStyled} from "@codegouvfr/react-dsfr/Table";
+import styled from '@emotion/styled';
+import { css } from "@emotion/react";
+
+const Table = styled(TableStyled)(
+  css`
+  & th {
+    text-align: center;
+    line-height: 1rem;
+    padding: .5rem;
+  }
+  & td {
+    text-align: center;
+    line-height: 1rem;
+    padding: .5rem;
+  }
+`);
 
 export default function BestTerritoriesTable({ title, limit, params }: { title: string, limit: number, params: SearchParamsInterface }) {
   const apiUrl = Config.get<string>('next.public_api_url', '');
@@ -28,7 +44,7 @@ export default function BestTerritoriesTable({ title, limit, params }: { title: 
       {!loading && !error && (
         <div className={fr.cx('fr-callout')}>
           <h3 className={fr.cx('fr-callout__title')}>{title}</h3>
-          <Table data={dataTable} headers={['Nom','Nombre']} bordered colorVariant={'blue-ecume'} />
+          <Table data={dataTable} headers={['Nom','Nombre']} bordered fixed colorVariant={'blue-ecume'} />
         </div>
       )}
     </>

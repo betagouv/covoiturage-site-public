@@ -3,16 +3,21 @@ import { useApi } from "@/hooks/useApi";
 import { SearchParamsInterface } from "@/interfaces/observatoire/componentsInterfaces";
 import { BestFluxDataInterface } from "@/interfaces/observatoire/dataInterfaces";
 import { fr } from "@codegouvfr/react-dsfr";
-import { Table as TableStyled} from "@codegouvfr/react-dsfr/Table"
-import styled from '@emotion/styled'
+import { Table as TableStyled} from "@codegouvfr/react-dsfr/Table";
+import styled from '@emotion/styled';
 import { css } from "@emotion/react";
 
 const Table = styled(TableStyled)(
   css`
-  & css-fr-table {
-    > td {
-      line-height: .5rem;
-    }
+  & th {
+    text-align: center;
+    line-height: 1rem;
+    padding: .5rem;
+  }
+  & td {
+    text-align: center;
+    line-height: 1rem;
+    padding: .5rem;
   }
 `);
 

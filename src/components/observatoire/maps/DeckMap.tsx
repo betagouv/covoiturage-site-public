@@ -42,6 +42,7 @@ const DeckMap = (props: DeckMapInterface) => {
         }}
         mapStyle={props.mapStyle}
         onLoad={getBounds}
+        scrollZoom={props.scrollZoom}
       >
         <DeckGLOverlay layers={props.layers} getTooltip={props.tooltip} />
         <NavigationControl />

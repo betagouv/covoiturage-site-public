@@ -68,7 +68,14 @@ export default function DensiteMap({ title, params }: { title: string; params: S
         </div>
       )}
       {!loading && !error && (
-        <DeckMap title={mapTitle} tooltip={tooltip} mapStyle={mapStyle} layers={[layer]} bounds={bounds()} />
+        <DeckMap 
+          title={mapTitle} 
+          tooltip={tooltip} 
+          mapStyle={mapStyle} 
+          layers={[layer]} 
+          bounds={bounds()} 
+          scrollZoom={false}
+        />
       )}
     </>
   );

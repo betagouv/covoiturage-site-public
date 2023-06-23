@@ -99,7 +99,7 @@ export default function OccupationMap({ title, params }: { title: string; params
         </div>
       )}
       {!loading && !error && (
-        <Map title={mapTitle} mapStyle={mapStyle} bounds={bounds()}>
+        <Map title={mapTitle} mapStyle={mapStyle} bounds={bounds()} scrollZoom={false}>
           <Source id='occupation' type='geojson' data={geojson}>
             <Layer {...layer} />
           </Source>

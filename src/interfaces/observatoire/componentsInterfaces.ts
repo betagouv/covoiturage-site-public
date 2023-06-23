@@ -14,6 +14,7 @@ export interface MapInterface {
   width?: string | number;
   initialView?: ViewInterface;
   mapStyle?: string;
+  scrollZoom?: boolean;
   bounds?: LngLatBoundsLike;
   children?: ReactNode;
 }

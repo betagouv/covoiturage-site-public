@@ -79,7 +79,14 @@ export default function FluxMap({ title, params }: { title: string; params: Sear
         </div>
       )}
       {!loading && !error && (
-        <DeckMap title={mapTitle} tooltip={tooltip} mapStyle={mapStyle} layers={[layer]} bounds={bounds()} />
+        <DeckMap 
+          title={mapTitle} 
+          tooltip={tooltip} 
+          mapStyle={mapStyle} 
+          layers={[layer]} 
+          bounds={bounds()}
+          scrollZoom={false}
+        />
       )}
     </>
   );
