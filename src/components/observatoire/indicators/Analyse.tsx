@@ -1,7 +1,7 @@
 import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 import style from './Analyse.module.scss';
 
-type AnalyseProps = {
+export type AnalyseProps = {
   title?: string;
   content: string;
   link?:{

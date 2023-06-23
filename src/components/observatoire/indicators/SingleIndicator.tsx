@@ -1,7 +1,7 @@
 import { Badge } from '@codegouvfr/react-dsfr/Badge';
 import style from './SingleIndicator.module.scss';
 
-type SingleIndicatorProps = {
+export type SingleIndicatorProps = {
   value: string;
   info?: string;
   title: string;

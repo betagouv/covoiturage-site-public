@@ -1,11 +1,60 @@
 import PageTitle from '@/components/common/PageTitle';
 import SectionTitle from '@/components/common/SectionTitle';
-import Definition from './definition';
 import IndicatorsRow from '@/components/observatoire/indicators/IndicatorsRow';
+import { SingleIndicatorProps } from '@/components/observatoire/indicators/SingleIndicator';
+import { AnalyseProps } from '@/components/observatoire/indicators/Analyse';
+import Hero, { HeroProps } from '@/components/common/Hero';
+import { ButtonProps } from '@codegouvfr/react-dsfr/Button';
+
+export type Content = {
+  pageTitle: string;
+  hero: HeroProps;
+  sections: {
+    title: string;
+    rows: {
+      indicators: SingleIndicatorProps[];
+      analyse?: AnalyseProps;
+    }[];
+  }[];
+}
 
 export default function Page() {
-  const content = {
+  const content:Content = {
     pageTitle: 'Comprendre la pratique du covoiturage en France',
+    hero:{
+      title: 'Le covoiturage, qu’est-ce que c’est ?',
+      content: `L’article L. 3132-1 du code des transports définit le covoiturage comme « l’utilisation en commun 
+      d’un véhicule terrestre à moteur par un conducteur et un ou plusieurs passagers, effectuée à titre non onéreux,
+       excepté le partage des frais, dans le cadre d’un déplacement que le conducteur effectue pour son propre compte.
+       Leur mise en relation, à cette fin, peut être effectuée à titre onéreux […] ». Il y a donc covoiturage dès le partage
+       d’un trajet entre un conducteur et un passager. En conséquence, le covoiturage peut donc être interne à la famille ou 
+       extra familial tel que pour des trajets réalisés dans le cadre de sorties de loisirs proches (réunion associative, etc.) 
+       ou plus éloignées (balade, cinéma, piscine, salle de sport, etc.).`,
+      buttons:[
+        {
+          children: 'Button 1 label',
+          iconId: 'fr-icon-git-commit-fill',
+          linkProps: {
+            href: '#'
+          }
+        },
+        {
+          children: 'Button 2 label (longer)',
+          iconId: 'fr-icon-chat-check-fill',
+          linkProps: {
+            href: '#'
+          },
+          priority: 'secondary'
+        },
+        {
+          children: 'Button 3 label',
+          iconId: 'fr-icon-bank-card-line',
+          linkProps: {
+            href: '#'
+          }
+        }
+      ]
+    },
     sections: [
       {
         title:'Environ 900 000 trajets covoiturés chaque jour',
@@ -51,9 +100,21 @@ export default function Page() {
               les territoires.`,
               link: {
                 title:'En savoir plus',
-                url:'#',
+                url:'/observatoire/territoire',
               }
             },
+          }
+        ]
+      },
+      {
+        title:'Infrastructures dédiées',
+        rows: [
+          {
+            indicators: [
+              { value: '8500', title: 'Aires de covoiturage' },
+              { value: '20', title: 'Lignes de covoiturage' },
+              { value: '7', title: 'Voies de covoiturage' },
+            ],
           }
         ]
       },
@@ -63,7 +124,7 @@ export default function Page() {
   return (
     <article id='content'>
       <PageTitle title={content.pageTitle} />
-      <Definition />
+      <Hero title={content.hero.title} content={content.hero.content} buttons={content.hero.buttons as [ButtonProps, ...ButtonProps[]]} />
       {content.sections.map( (d, i) => {
         return (
           <>
