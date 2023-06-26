@@ -4,7 +4,8 @@ import SectionTitle from "@/components/common/SectionTitle";
 import ThemesTags from "@/components/actualites/ThemesTags";
 import ActuCard from "@/components/actualites/ActuCard";
 
-export default function Actualites() {
+
+export default function ActuPage({ params }: { params: { id: number }}) {
   const  themes = [
     {id: 1, link:'/', name:'test1'},
     {id: 2, link:'/', name:'test2'},
@@ -12,7 +13,7 @@ export default function Actualites() {
   ];
 
   const content = {
-    pageTitle: 'Actualités',
+    pageTitle: `Actualités page ${params.id}`,
     actualites: [
       {
         title:'Titre de l\'actu 1',

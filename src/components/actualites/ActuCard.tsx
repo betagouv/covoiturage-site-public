@@ -2,22 +2,9 @@ import { Card } from "@codegouvfr/react-dsfr/Card";
 import { fr } from "@codegouvfr/react-dsfr";
 import { ButtonsGroup } from "@codegouvfr/react-dsfr/ButtonsGroup";
 import { Tag } from "@codegouvfr/react-dsfr/Tag";
+import { ActuCardProps } from "@/interfaces/actualites/componentsInterface";
 
-export type HorizontalActuCardProps= {
-  title: string,
-  desc: string,
-  date: string,
-  img: string,
-  alt?: string,
-  link: string,
-  categories: CategorieProps[];
-}
- type CategorieProps = {
-  name: string,
-  link: string,
- }
-
-export default function HorizontalActuCard(props: HorizontalActuCardProps) {
+export default function ActuCard(props: ActuCardProps) {
   return(
     <Card
       title={props.title}
@@ -60,7 +47,7 @@ export default function HorizontalActuCard(props: HorizontalActuCardProps) {
           ]}
         />
       }
-      horizontal
+      horizontal={props.horizontal}
     />
   )
 }
