@@ -1,7 +1,10 @@
 import PageTitle from "@/components/common/PageTitle";
-import { fr } from "@codegouvfr/react-dsfr";
+import Share from "@/components/common/Share";
+import { Config } from "@/config";
 
 export default function ActuSinglePage({ params }: { params: { slug: string }}) {
+  const hostUrl = Config.get<string>('next.public_url', 'http://localhost:4200');
+  const location = `${hostUrl}/actualites/${params.slug}`;
   const content = {
     title:'Titre de l\'actu 1',
     date:'26/06/2023',
@@ -17,10 +20,34 @@ export default function ActuSinglePage({ params }: { params: { slug: string }}) 
     alt:'alt de l`\'image',
     link: '/',
   };
+
+  const share = [
+    {
+      name:'Facebook', 
+      icon:'fr-share__link--facebook', 
+      href:`https://www.facebook.com/sharer.php?u=${location}`,
+    },
+    {
+      name:'Twitter', 
+      icon:'fr-share__link--twitter', 
+      href:`https://twitter.com/intent/tweet?url=${location}`,
+    },
+    {
+      name:'LinkedIn', 
+      icon:'fr-share__link--linkedin', 
+      href:`https://www.linkedin.com/shareArticle?url=${location}`,
+    },
+    {
+      name:'Email', 
+      icon:'fr-share__link--mail', 
+      href:`mailto:?subject=${content.title}&body=${content.desc} ${location}`,
+    }
+  ]
   return (
     <article id='content'>
       <PageTitle title={content.title} />
       <p>Publié le {content.date}</p>
+      <Share social={share} location={location} />
     </article>
   );
 }

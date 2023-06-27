@@ -2,7 +2,7 @@ export interface CategorieProps {
   id: number,
   name: string,
   link: string,
- }
+}
 
  export interface ActuCardProps {
   title: string,
