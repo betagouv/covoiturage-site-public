@@ -1,6 +1,10 @@
 import PageTitle from "@/components/common/PageTitle";
 import Share from "@/components/common/Share";
 import { Config } from "@/config";
+import { fr } from "@codegouvfr/react-dsfr";
+import Image from 'next/image';
+import { SideMenu } from "@codegouvfr/react-dsfr/SideMenu";
+import Tag from "@codegouvfr/react-dsfr/Tag";
 
 export default function ActuSinglePage({ params }: { params: { slug: string }}) {
   const hostUrl = Config.get<string>('next.public_url', 'http://localhost:4200');
@@ -20,7 +24,6 @@ export default function ActuSinglePage({ params }: { params: { slug: string }}) 
     alt:'alt de l`\'image',
     link: '/',
   };
-
   const share = [
     {
       name:'Facebook', 
@@ -43,11 +46,64 @@ export default function ActuSinglePage({ params }: { params: { slug: string }}) 
       href:`mailto:?subject=${content.title}&body=${content.desc} ${location}`,
     }
   ]
+  const relativeContent = [
+    {title:'test2', url:'/actualites/test2'},
+    {title:'test3', url:'/actualites/test3'},
+    {title:'test4', url:'/actualites/test4'},
+  ]
   return (
-    <article id='content'>
-      <PageTitle title={content.title} />
-      <p>Publié le {content.date}</p>
-      <Share social={share} location={location} />
+    <article id='actu-content'>
+      <div className={fr.cx('fr-grid-row', 'fr-grid-row--gutters')}>
+        <div className={fr.cx('fr-col', 'fr-col-md-9')}>
+          <PageTitle title={content.title} />
+          <ul className={fr.cx('fr-tags-group')}>
+            {content.categories &&
+              content.categories.map((c, i) => {
+                return (
+                  <li key={i}>
+                    <Tag
+                      linkProps={{
+                        href: c.link
+                      }}
+                    >
+                      {c.name}
+                    </Tag>
+                  </li>
+                )
+              })
+            }
+          </ul>
+          <p>Publié le {content.date}</p>
+          <Share social={share} location={location} />
+          <figure className={fr.cx('fr-content-media')} role="group">
+            <div className={fr.cx('fr-content-media__img')}>
+                <Image className={fr.cx('fr-responsive-img')} src={content.img} alt={content.alt} width={1200} height={800} />
+            </div>
+            <figcaption className={fr.cx('fr-content-media__caption')}>{content.alt}</figcaption>
+          </figure>
+          <div className={fr.cx('fr-text--lg')}>
+            {content.desc}
+          </div>
+          <a className={fr.cx('fr-link', 'fr-icon-arrow-up-fill', 'fr-link--icon-left')} href="#top">
+            Haut de page
+          </a>
+        </div>
+        <SideMenu 
+        className={fr.cx('fr-pt-10v')}
+        align="right"
+        title="Dans cette catégorie :"
+        burgerMenuButtonText="Dans cette catégorie :"
+        items={relativeContent.map(c => {
+          return {
+              linkProps: {
+                href: c.url
+              },
+              text: c.title
+            }
+          }
+        )}
+        sticky />
+      </div>
     </article>
   );
 }

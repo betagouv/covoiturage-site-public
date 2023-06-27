@@ -6,6 +6,16 @@ const nextConfig = {
     // Required:
     appDir: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+        port: '',
+        pathname: '**',
+      },
+    ],
+  },
   webpack: (config, { webpack, isServer }) => {
     config.module.rules.push({
       test: /\.woff2$/,
