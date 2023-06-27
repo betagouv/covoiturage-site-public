@@ -69,6 +69,11 @@ export default function Navigation() {
           isActive: pathname === '/actualites',
         },
         {
+          linkProps: { href: '/ressources', target: '_self' },
+          text: 'Ressources',
+          isActive: pathname === '/ressources',
+        },
+        {
           linkProps: { href: '/documentation', target: '_self' },
           text: 'Documentation',
           isActive: pathname === '/documentation',
