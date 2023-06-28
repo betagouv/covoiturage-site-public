@@ -1,7 +1,10 @@
+'use client'
 import CallToAction from "@/components/common/CallToAction";
 import { ButtonProps } from "@codegouvfr/react-dsfr/Button";
+import { useColors } from "@codegouvfr/react-dsfr/useColors";
 
 export default function TestPage() {
+  const theme = useColors();
   const content={
     hero:{
       title: 'Le covoiturage, qu’est-ce que c’est ?',
@@ -30,7 +33,7 @@ export default function TestPage() {
       subtitle={content.hero.subtitle} 
       content={content.hero.content} 
       buttons={content.hero.buttons as [ButtonProps, ...ButtonProps[]]}
-      backgroundColor={'#cbcbfa'}
+      backgroundColor={theme.decisions.background.alt.blueFrance.hover}
       img={content.hero.img}
       alt={content.hero.alt}
     />

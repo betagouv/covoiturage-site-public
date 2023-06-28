@@ -3,12 +3,12 @@ import SectionTitle from '@/components/common/SectionTitle';
 import IndicatorsRow from '@/components/observatoire/indicators/IndicatorsRow';
 import { SingleIndicatorProps } from '@/components/observatoire/indicators/SingleIndicator';
 import { AnalyseProps } from '@/components/observatoire/indicators/Analyse';
-import Hero, { HeroProps } from '@/components/common/Hero';
+import CallToAction, { CTAProps } from '@/components/common/CallToAction';
 import { ButtonProps } from '@codegouvfr/react-dsfr/Button';
 
 export type Content = {
   pageTitle: string;
-  hero: HeroProps;
+  hero: CTAProps;
   sections: {
     title: string;
     rows: {
@@ -124,7 +124,7 @@ export default function Page() {
   return (
     <article id='content'>
       <PageTitle title={content.pageTitle} />
-      <Hero title={content.hero.title} content={content.hero.content} buttons={content.hero.buttons as [ButtonProps, ...ButtonProps[]]} />
+      <CallToAction title={content.hero.title} content={content.hero.content} buttons={content.hero.buttons as [ButtonProps, ...ButtonProps[]]} />
       {content.sections.map( (d, i) => {
         return (
           <>
