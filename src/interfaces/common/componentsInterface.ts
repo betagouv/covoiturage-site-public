@@ -14,3 +14,12 @@ export interface HighlightProps {
   classes? : Partial<Record<"content" | "root", string>> | undefined,
   buttons?: [ButtonProps, ...ButtonProps[]],
 }
+
+export interface MediaProps {
+  title: string,
+  text: string,
+  position: 'right' | 'left',
+  img: string,
+  alt: string,
+  buttons?: [ButtonProps, ...ButtonProps[]],
+}
