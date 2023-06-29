@@ -18,8 +18,8 @@ export interface HighlightProps {
 export interface MediaProps {
   title: string,
   text: string,
-  position: 'right' | 'left',
-  img: string,
-  alt: string,
+  position?: 'right' | 'left',
+  img?: string,
+  alt?: string,
   buttons?: [ButtonProps, ...ButtonProps[]],
 }
