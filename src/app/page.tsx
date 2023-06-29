@@ -2,6 +2,8 @@ import CallToAction from "@/components/common/CallToAction";
 import { ButtonProps } from "@codegouvfr/react-dsfr/Button";
 import ListHighlight from "@/components/common/ListHighlights";
 import SectionTitle from "@/components/common/SectionTitle";
+import { Tile } from "@codegouvfr/react-dsfr/Tile";
+import { fr } from "@codegouvfr/react-dsfr";
 
 export default function Home() {
   const content = {
@@ -81,6 +83,35 @@ export default function Home() {
             ] as [ButtonProps, ...ButtonProps[]]
           }
         ]
+      },
+      {
+        title:'Vous êtes ?',
+        tiles:[{
+          desc:"<ul><li>test</li></ul>",
+          grey: true,
+          imageUrl: "//www.gouvernement.fr/sites/default/files/static_assets/placeholder.1x1.png",
+          linkProps:{
+            href: '#'
+          },
+          title:"Titre de la tuile"
+        },{
+          desc:"Lorem ipsum dolor sit amet, consectetur adipiscing, incididunt, ut labore et dol",
+          grey: true,
+          imageUrl: "//www.gouvernement.fr/sites/default/files/static_assets/placeholder.1x1.png",
+          linkProps:{
+            href: '#'
+          },
+          title:"Titre de la tuile"
+        },{
+          desc:"Lorem ipsum dolor sit amet, consectetur adipiscing, incididunt, ut labore et dol",
+          grey: true,
+          imageUrl: "//www.gouvernement.fr/sites/default/files/static_assets/placeholder.1x1.png",
+          linkProps:{
+            href: '#'
+          },
+          title:"Titre de la tuile"
+        }
+      ]
       }
     ],
   }
@@ -90,6 +121,20 @@ export default function Home() {
       <CallToAction title={content.hero.title} content={content.hero.content} buttons={content.hero.buttons as [ButtonProps, ...ButtonProps[]]} />
       <SectionTitle title={content.sections[0].title} />
       <ListHighlight highlights={content.sections[0].highlights} />
+      <SectionTitle title={content.sections[1].title} />
+      <div className={fr.cx('fr-grid-row','fr-grid-row--gutters')}>
+        {content.sections[1].tiles && content.sections[1].tiles.map( (t, i) => 
+          <div key={i} className={fr.cx('fr-col-12','fr-col-md-4')}>
+            <Tile 
+              title={t.title}
+              desc={t.desc}
+              grey={t.grey}
+              imageUrl={t.imageUrl}
+              linkProps={t.linkProps}
+            />
+          </div>
+        )}
+      </div>
     </article>
   );
 }
