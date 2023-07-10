@@ -1,13 +1,18 @@
-import { CategorieProps } from "../actualites/componentsInterface";
-
  export interface RessourceCardProps {
   title: string,
-  desc: string,
+  content: string,
   date: string,
   img: string,
-  alt?: string,
-  link: string,
-  themes: CategorieProps[],
-  categories: CategorieProps[],
+  img_legend?: string,
+  href: string,
+  categories: {
+    Categories_id:CategorieProps
+  }[]
   horizontal?: boolean
+}
+
+export interface CategorieProps {
+  id: string | number,
+  name: string,
+  slug: string,
 }

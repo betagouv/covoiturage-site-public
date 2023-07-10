@@ -3,27 +3,26 @@ import Share from "@/components/common/Share";
 import { Config } from "@/config";
 import { fr } from "@codegouvfr/react-dsfr";
 import Image from 'next/image';
-import { SideMenu } from "@codegouvfr/react-dsfr/SideMenu";
-import Tag from "@codegouvfr/react-dsfr/Tag";
+import { cmsHost, cmsInstance } from "@/helpers/cms";
 
-export default function ActuSinglePage({ params }: { params: { slug: string }}) {
+export default async function ActuSingle({ params }: { params: { slug: string }}) {
   const hostUrl = Config.get<string>('next.public_url', 'http://localhost:4200');
   const location = `${hostUrl}/actualites/${params.slug}`;
-  const content = {
-    title:'Titre de l\'actu 1',
-    date:'26/06/2023',
-    themes:[
-      {id: 1, link:'/', name:'test'},
-    ],
-    categories:[
-      {id: 1, link:'/', name:'test'},
-      {id: 1, link:'/', name:'test'},
-    ],
-    desc:'Lorem ipsum dolor sit amet, consectetur adipiscing, incididunt, ut labore et dolore magna aliqua. Vitae sapien pellentesque habitant morbi tristique senectus et',
-    img: 'https://www.systeme-de-design.gouv.fr/img/placeholder.16x9.png',
-    alt:'alt de l`\'image',
-    link: '/',
-  };
+
+  const { data } = await cmsInstance.items('Articles').readByQuery({
+    fields:'*',
+    limit:1,
+    filter:{
+      status: {
+        '_eq': 'published',
+      },
+      slug: {
+        '_eq': params.slug,
+      },
+    },
+    meta:'*',
+  });
+  
   const share = [
     {
       name:'Facebook', 
@@ -43,66 +42,32 @@ export default function ActuSinglePage({ params }: { params: { slug: string }}) 
     {
       name:'Email', 
       icon:'fr-share__link--mail', 
-      href:`mailto:?subject=${content.title}&body=${content.desc} ${location}`,
+      href:`mailto:?subject=${data ? data[0].title : ''}&body=${data ? data[0].content : ''} ${location}`,
     }
   ]
-  const relativeContent = [
-    {title:'test2', url:'/actualites/test2'},
-    {title:'test3', url:'/actualites/test3'},
-    {title:'test4', url:'/actualites/test4'},
-  ]
+
   return (
     <article id='actu-content'>
       <div className={fr.cx('fr-grid-row', 'fr-grid-row--gutters')}>
-        <div className={fr.cx('fr-col', 'fr-col-md-9')}>
-          <PageTitle title={content.title} />
-          <ul className={fr.cx('fr-tags-group')}>
-            {content.categories &&
-              content.categories.map((c, i) => {
-                return (
-                  <li key={i}>
-                    <Tag
-                      linkProps={{
-                        href: c.link
-                      }}
-                    >
-                      {c.name}
-                    </Tag>
-                  </li>
-                )
-              })
-            }
-          </ul>
-          <p>Publié le {content.date}</p>
+      { data && 
+        <div className={fr.cx('fr-col-12')}>
+          <PageTitle title={data[0].title} />
+          <p>Publié le {new Date(data[0].date_created).toLocaleDateString('fr-FR')}</p>
           <Share social={share} location={location} />
           <figure className={fr.cx('fr-content-media')} role="group">
             <div className={fr.cx('fr-content-media__img')}>
-                <Image className={fr.cx('fr-responsive-img')} src={content.img} alt={content.alt} width={1200} height={800} />
+                <Image className={fr.cx('fr-responsive-img')} src={`${cmsHost}/assets/${data[0].img}`} alt={data[0].img_legend} width={1200} height={800} />
             </div>
-            <figcaption className={fr.cx('fr-content-media__caption')}>{content.alt}</figcaption>
+            <figcaption className={fr.cx('fr-content-media__caption')}>{data[0].img_legend}</figcaption>
           </figure>
           <div className={fr.cx('fr-text--lg')}>
-            {content.desc}
+            {data[0].content}
           </div>
           <a className={fr.cx('fr-link', 'fr-icon-arrow-up-fill', 'fr-link--icon-left')} href="#top">
             Haut de page
           </a>
         </div>
-        <SideMenu 
-        className={fr.cx('fr-pt-10v')}
-        align="right"
-        title="Dans cette catégorie :"
-        burgerMenuButtonText="Dans cette catégorie :"
-        items={relativeContent.map(c => {
-          return {
-              linkProps: {
-                href: c.url
-              },
-              text: c.title
-            }
-          }
-        )}
-        sticky />
+      }
       </div>
     </article>
   );

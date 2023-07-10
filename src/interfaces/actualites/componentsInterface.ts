@@ -1,17 +1,9 @@
-export interface CategorieProps {
-  id: number,
-  name: string,
-  link: string,
-}
-
- export interface ActuCardProps {
+export interface ActuCardProps {
   title: string,
-  desc: string,
+  content: string,
   date: string,
   img: string,
-  alt?: string,
-  link: string,
-  themes: CategorieProps[],
-  categories: CategorieProps[],
+  img_legend?: string,
+  href: string,
   horizontal?: boolean
 }

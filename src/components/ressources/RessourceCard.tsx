@@ -8,7 +8,7 @@ export default function RessourceCard(props: RessourceCardProps) {
   return(
     <Card
       title={props.title}
-      desc={props.desc}
+      desc={props.content}
       start={
         <ul className={fr.cx('fr-tags-group')}>
           {props.categories &&
@@ -17,10 +17,10 @@ export default function RessourceCard(props: RessourceCardProps) {
                 <li key={i}>
                   <Tag
                     linkProps={{
-                      href: c.link
+                      href: `/ressources/category/${c.Categories_id.slug}`
                     }}
                   >
-                    {c.name}
+                    {c.Categories_id.name}
                   </Tag>
                 </li>
               )
@@ -29,7 +29,7 @@ export default function RessourceCard(props: RessourceCardProps) {
         </ul>
       }
       detail={`Publié le ${props.date}`}
-      imageAlt={props.alt}
+      imageAlt={props.img_legend}
       imageUrl={props.img}
       footer={
         <ButtonsGroup
@@ -41,7 +41,7 @@ export default function RessourceCard(props: RessourceCardProps) {
               iconId: "fr-icon-download-fill",
               iconPosition: "right",
               linkProps: {
-                href: props.link,
+                href: props.href,
               },
             },
           ]}

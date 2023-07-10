@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 export default function CollectiviteSinglePage({ params }: { params: { slug: string }}) {
   const hostUrl = Config.get<string>('next.public_url', 'http://localhost:4200');
-  const location = `${hostUrl}/actualites/${params.slug}`;
+  const location = `${hostUrl}/collectivites/${params.slug}`;
   const content = {
     title:'Titre de l\'article collectivité',
     date:'26/06/2023',

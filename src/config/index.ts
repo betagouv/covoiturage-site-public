@@ -3,8 +3,10 @@
  * 2. add the configuration to the object in objectToMap()
  */
 import { observatoire } from './observatoire';
+import { cms } from './cms';
 
 const _configuration = objectToMap({
+  cms,
   observatoire,
   next: nextEnvironmentVariables(),
 });
@@ -13,10 +15,9 @@ const _configuration = objectToMap({
 // Helpers and export
 // ---------------------------------------------------------------------------------------
 
-type ConfigValue = string | number | boolean | null | { [key: string]: ConfigValue };
-type Value = string | number | boolean | null;
+export type ConfigObject = string | number | boolean | null | { [key: string]: ConfigObject } | undefined;
 
-function nextEnvironmentVariables(): ConfigValue {
+function nextEnvironmentVariables(): ConfigObject {
   return Object.entries(process.env)
     .filter(([key]) => key.startsWith('NEXT_'))
     .filter(([key]) => typeof process.env[key] !== 'undefined')
@@ -24,12 +25,11 @@ function nextEnvironmentVariables(): ConfigValue {
       const k = key.replace('NEXT_', '').toLowerCase();
       acc[k] = process.env[key];
       return acc;
-    }, {} as Record<string, any>);
+    }, {} as Record<string, ConfigObject>);
 }
 
-function objectToMap(obj: ConfigValue): Map<string, ConfigValue> {
+function objectToMap(obj: ConfigObject): Map<string, ConfigObject> {
   const map = new Map();
-
   if (typeof obj === 'object' && obj !== null) {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -43,24 +43,21 @@ function objectToMap(obj: ConfigValue): Map<string, ConfigValue> {
       }
     }
   }
-
   return map;
 }
 
 export const Config = {
-  get<T extends Value>(key: string, defaultValue?: T): T {
+  get<T>(key: string, defaultValue?: T): T {
     let _value: unknown = _configuration;
     for (const part of key.split('.')) {
       _value = _value instanceof Map && _value.has(part) ? _value.get(part) : undefined;
     }
-
     if (typeof _value === 'undefined') {
       if (typeof defaultValue === 'undefined') {
         throw new Error(`Configuration key "${key}" not found`);
       }
       return defaultValue;
     }
-
     return _value as T;
   },
 };
