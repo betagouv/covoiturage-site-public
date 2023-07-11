@@ -1,3 +1,4 @@
+import { cmsHost } from "@/helpers/cms";
 import Highlight from "./Highlight";
 import { HighlightProps } from "@/interfaces/common/componentsInterface";
 
@@ -8,8 +9,8 @@ export default function ListHighlight(props:{ highlights: HighlightProps[]}) {
         <Highlight 
           key={i}
           title={h.title}
-          text={h.text}
-          img={h.img}
+          content={h.content}
+          img={`${cmsHost}/assets/${h.img}`}
           alt={h.alt}
           buttons={h.buttons}
           classes={h.classes}

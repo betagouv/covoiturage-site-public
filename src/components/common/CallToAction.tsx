@@ -3,16 +3,8 @@ import { fr } from '@codegouvfr/react-dsfr';
 import { ButtonProps } from '@codegouvfr/react-dsfr/Button';
 import { CSSProperties } from 'react';
 import Image from 'next/image';
-
-export type CTAProps = {
-  title: string;
-  subtitle?:string;
-  content: string;
-  buttons?: [ButtonProps, ...ButtonProps[]];
-  backgroundColor?: string;
-  img?: string;
-  alt?:string;
-}
+import { CTAProps } from '@/interfaces/common/componentsInterface';
+import { cmsHost } from '@/helpers/cms';
 
 export default function CallToAction(props:CTAProps) {
   return (
@@ -28,7 +20,16 @@ export default function CallToAction(props:CTAProps) {
         {props.buttons && props.img && 
           <ButtonsGroup
             alignment={'center'}
-            buttons={props.buttons}
+            buttons={props.buttons.map(b => {
+              return {
+                children:b.title,
+                linkProps: {
+                  href: b.url
+                },
+                iconId: b.icon ? b.icon : '',
+                priority: b.color ? b.color : 'primary',
+              } 
+            }) as [ButtonProps, ...ButtonProps[]]}
             buttonsEquisized
             buttonsIconPosition={'right'}
           />
@@ -38,14 +39,23 @@ export default function CallToAction(props:CTAProps) {
         {props.img && props.alt &&
           <figure className={fr.cx('fr-content-media')} role="group">
             <div className={fr.cx('fr-content-media__img')}>
-              <Image className={fr.cx('fr-responsive-img')} src={props.img} alt={props.alt} width={1200} height={800} />
+              <Image className={fr.cx('fr-responsive-img')} src={`${cmsHost}/assets/${props.img}`} alt={props.alt} width={1200} height={800} />
             </div>
           </figure>
         }
         {props.buttons && !props.img && !props.alt && 
           <ButtonsGroup
             alignment={'center'}
-            buttons={props.buttons}
+            buttons={props.buttons.map(b => {
+              return {
+                children:b.title,
+                linkProps: {
+                  href: b.url
+                },
+                iconId: b.icon ? b.icon : '',
+                priority: b.color ? b.color : 'primary',
+              } 
+            }) as [ButtonProps, ...ButtonProps[]]}
           />
         }
       </div>

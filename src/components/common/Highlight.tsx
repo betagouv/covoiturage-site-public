@@ -3,6 +3,7 @@ import ButtonsGroup from "@codegouvfr/react-dsfr/ButtonsGroup";
 import { Highlight } from "@codegouvfr/react-dsfr/Highlight";
 import { HighlightProps }  from "@/interfaces/common/componentsInterface"
 import Image from 'next/image';
+import { ButtonProps } from "@codegouvfr/react-dsfr/Button";
 
 export default function AppHighlight(props: HighlightProps) {
   return(
@@ -20,14 +21,23 @@ export default function AppHighlight(props: HighlightProps) {
       <div className={!props.img ? fr.cx('fr-col-12') : fr.cx('fr-col-md-10')}>
         <p className={fr.cx('fr-h3', 'fr-ml-md-5w')}>{props.title}</p>
         <Highlight classes={props.classes}>
-          {props.text}
+          {props.content}
         </Highlight>
         {
           props.buttons && 
           <ButtonsGroup
             alignment={'right'}
             inlineLayoutWhen={'always'}
-            buttons={props.buttons}
+            buttons={props.buttons.map(b => {
+              return {
+                children:b.title,
+                linkProps: {
+                  href: b.url
+                },
+                iconId: b.icon ? b.icon : '',
+                priority: b.color ? b.color : 'primary',
+              } 
+            }) as [ButtonProps, ...ButtonProps[]]}
             buttonsIconPosition={'right'}
           />
         }
