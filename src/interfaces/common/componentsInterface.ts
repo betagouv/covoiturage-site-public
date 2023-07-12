@@ -1,3 +1,4 @@
+import { Button } from "../cms/collectionsInterface";
 
 export interface ShareProps {
   name:string, 
@@ -12,7 +13,7 @@ export interface CTAProps {
   backgroundColor?: string,
   img?: string,
   alt?:string,
-  buttons?: ButtonProps[],
+  buttons?: Button[],
 }
 
 export interface HighlightProps {
@@ -21,14 +22,7 @@ export interface HighlightProps {
   img?: string,
   alt?: string,
   classes? : Partial<Record<"content" | "root", string>> | undefined,
-  buttons?: ButtonProps[],
-}
-
-export interface ButtonProps {
-  title: string,
-  url: string,
-  icon?: string,
-  color?:'primary' | 'secondary',
+  buttons?: Button[],
 }
 
 export interface MediaProps {
@@ -37,5 +31,5 @@ export interface MediaProps {
   position?: 'right' | 'left',
   img?: string,
   alt?: string,
-  buttons?: ButtonProps[],
+  buttons?: Button[],
 }
